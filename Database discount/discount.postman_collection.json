@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "a0a79296-5a19-4b7c-a95f-352bf21f1285",
+		"name": "discount",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26746028"
+	},
+	"item": [
+		{
+			"name": "Retrieve Promotions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/nosql/promotions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"nosql",
+						"promotions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Promotions id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/nosql/promotions/001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"nosql",
+						"promotions",
+						"001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Promotions",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Pro_ID\": \"001\",\r\n  \"Promo_Description\": \"50% off on all items\",\r\n  \"start_date\": \"2023-10-01T00:00:00.000Z\",\r\n  \"expiry_date\": \"2023-10-31T23:59:59.999Z\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/nosql/promotions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"nosql",
+						"promotions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Promotions id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Promo_Description\": \"Updated description: 70% off on all items\",\r\n  \"expiry_date\": \"2023-12-31T23:59:59.999Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/nosql/promotions/001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"nosql",
+						"promotions",
+						"001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Promotions id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/nosql/promotions/001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"nosql",
+						"promotions",
+						"001"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

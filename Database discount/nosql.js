@@ -37,21 +37,17 @@ async function createPromotionCollectionIfNotExist() {
       await db.collection(collectionName).insertMany([
         {
           Pro_ID: "001",
-          Promo_Description: "Buy 1 Get 1 Free",
-          start_date: new Date("2024-01-01"),
-          expiry_date: new Date("2024-12-31"),
+          Promo_Description: "สะสมแต้มผ่าน LINE OA 10 แก้ว ฟรี 1 แก้ว"
         },
         {
           Pro_ID: "002",
-          Promo_Description: "20% Off",
-          start_date: new Date("2024-05-01"),
-          expiry_date: new Date("2024-06-30"),
+          Promo_Description: "ลด 50% สำหรับแก้วที่ 2 ทุกวันศุกร์ เวลา 13:00-16:00 (อาจจะใช้ถึงสิ้นเดือน ตค นี้)",
+          start_date: new Date("2024-10-01"),
+          expiry_date: new Date("2024-10-31"),
         },
         {
           Pro_ID: "003",
-          Promo_Description: "Free Coffee on Fridays",
-          start_date: new Date("2024-07-01"),
-          expiry_date: new Date("2024-12-31"),
+          Promo_Description: "ส่วนลด 5 บาทสำหรับนักศึกษาเก่ามหิดล"          
         },
       ]);
 
@@ -89,9 +85,9 @@ app.get("/promotions", async (req, res) => {
 app.post("/promotions", async (req, res) => {
   try {
     const newPromotion = req.body; // Get the new promotion data from request body
-    // Validate the incoming promotion data
-    if (!newPromotion.Pro_ID || !newPromotion.Promo_Description || !newPromotion.start_date || !newPromotion.expiry_date) {
-      return res.status(400).json({ error: "All fields are required: Pro_ID, Promo_Description, start_date, expiry_date" });
+    // Validate the incoming promotion data (start_date and expiry_date are optional)
+    if (!newPromotion.Pro_ID || !newPromotion.Promo_Description) {
+      return res.status(400).json({ error: "Pro_ID and Promo_Description are required fields." });
     }
 
     await client.connect(); // Connect to MongoDB
@@ -131,9 +127,9 @@ app.get("/promotions/:Pro_ID", async (req, res) => {
 app.put("/promotions/:Pro_ID", async (req, res) => {
   try {
     const updatedPromotion = req.body; // Get the updated promotion data from request body
-    // Validate the incoming promotion data
-    if (!updatedPromotion.Pro_ID || !updatedPromotion.Promo_Description || !updatedPromotion.start_date || !updatedPromotion.expiry_date) {
-      return res.status(400).json({ error: "All fields are required: Pro_ID, Promo_Description, start_date, expiry_date" });
+    // Validate the required fields (Pro_ID and Promo_Description)
+    if (!updatedPromotion.Pro_ID || !updatedPromotion.Promo_Description) {
+      return res.status(400).json({ error: "Pro_ID and Promo_Description are required fields." });
     }
 
     await client.connect(); // Connect to MongoDB

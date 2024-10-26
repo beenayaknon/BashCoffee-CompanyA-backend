@@ -1,18 +1,10 @@
 const dbName = "BashCoffeeDB";
-const collectionName = "beverage";
+const collectionName = "bakery";
 
 // Function to create the Baker collection if it doesn't exist
-async function createBakerCollectionIfNotExist() {
-
-  try {
-    // Connect to MongoDB
-    await client.connect();
-    console.log("Connected successfully to MongoDB");
-
-    const db = client.db(dbName);
-
-    // Check if the collection already exists
-    const collections = await db.listCollections({ name: 'bakery' }).toArray();
+async function initializbakeryCollectionIfNotExist(client) {
+  const db = client.db(dbName);
+  const collections = await db.listCollections({ name: collectionName }).toArray();
 
     // If the collection does not exist, create it
     if (collections.length === 0) {
@@ -56,12 +48,6 @@ async function createBakerCollectionIfNotExist() {
     } else {
       console.log(`Collection 'bakery' already exists.`);
     }
-
-  } catch (err) {
-    console.error("Error creating collection:", err); // Handle any errors
-  } finally {
-    await client.close(); // Close the connection
-  }
 }
 
-module.exports = createBakerCollectionIfNotExist;
+module.exports = initializbakeryCollectionIfNotExist;

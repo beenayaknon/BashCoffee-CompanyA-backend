@@ -2,7 +2,7 @@ const dbName = "BashCoffeeDB";
 const collectionName = "beverage";
 
 // Function to create the Beverage collection if it doesn't exist
-async function initializeBeverageCollection(client) {
+async function initializeBeverageCollectionIfNotExist(client) {
   const db = client.db(dbName);
   const collections = await db.listCollections({ name: collectionName }).toArray();
 
@@ -67,4 +67,4 @@ async function initializeBeverageCollection(client) {
   }
 }
 
-module.exports = initializeBeverageCollection;
+module.exports = initializeBeverageCollectionIfNotExist;

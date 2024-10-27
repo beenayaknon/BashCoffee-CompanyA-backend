@@ -83,6 +83,31 @@ app.get("/beverage/:name", async (req, res) => {
       res.status(500).json({ error: "An error occurred while fetching drinks" });
     }
   });
+
+  app.get("/beverage/:type", async (req, res) => {
+    try {
+      const drinkName = req.params.name; // Get drink name from URL parameter
+      const drinkType = req.query.type; // Get drink type from query parameters
+  
+      // Create query object
+      let query = { DrinkType: drinkType }; // Filter by drink name
+      if (drinkName) {
+        query.Drink_Name = drinkName; // Add drink type filter if provided
+      }
+  
+      const drinks = await db.collection("beverage").find(query).toArray();
+      
+      // Check if any drinks were found
+      if (drinks.length > 0) {
+        res.status(200).json(drinks); // Return found drinks
+      } else {
+        res.status(404).json({ error: "No drinks found matching the criteria" }); // Return 404 if no drinks found
+      }
+    } catch (err) {
+      console.error("Error fetching drinks:", err);
+      res.status(500).json({ error: "An error occurred while fetching drinks" });
+    }
+  });
   
 
 // Member routes (same pattern as above, but with the connection established)

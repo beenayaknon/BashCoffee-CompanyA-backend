@@ -8,6 +8,9 @@ app.use(express.json());
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 
+// Serve static files from the "public" directory
+app.use("/image", express.static("Database beverage/images"));
+
 const dbName = "BashCoffeeDB"; // Define your database name here
 let db; // Initialize a variable to hold the database reference
 
@@ -17,21 +20,36 @@ const initializeMemberCollectionIfNotExist = require("./Database member/member")
 const initializePromotionCollectionIfNotExist = require("./Database promotion/promotion.js");
 const initializbakeryCollectionIfNotExist = require("./Database bakery/bakery.js");
 // Function to initialize all collections
+// Function to initialize all collections with fresh data
 async function initializeCollections() {
   try {
     await client.connect();
     console.log("Connected successfully to MongoDB");
 
     db = client.db(dbName); // Assign the database reference
+    
+    // Drop collections if they exist before initializing
+    const collections = ['beverage', 'member', 'Promotion', 'bakery'];
+    for (const collection of collections) {
+      const collectionExists = await db.collection(collection).countDocuments({});
+      if (collectionExists) {
+        await db.collection(collection).drop();
+        console.log(`Dropped existing collection: ${collection}`);
+      }
+    }
+
     // Initialize collections
     await initializeBeverageCollectionIfNotExist(client);
     await initializeMemberCollectionIfNotExist(client);
     await initializePromotionCollectionIfNotExist(client);
     await initializbakeryCollectionIfNotExist(client);
+
+    console.log("Collections initialized successfully");
   } catch (err) {
     console.error("Error initializing collections:", err);
   }
 }
+
 
 // Call initializeCollections when the server starts
 initializeCollections();
@@ -106,6 +124,26 @@ app.get("/beverage/:name", async (req, res) => {
     } catch (err) {
       console.error("Error fetching drinks:", err);
       res.status(500).json({ error: "An error occurred while fetching drinks" });
+    }
+  });
+  
+
+  app.get("/test-images", async (req, res) => {
+    try {
+      const drinks = await db.collection("beverage").find({}).toArray();
+  
+      let html = '<h1>Drink Images</h1>';
+      drinks.forEach(drink => {
+        html += `<div>
+                   <h3>${drink.Drink_Name}</h3>
+                   <img src="${drink.img_src}" alt="${drink.Drink_Name}" style="width:150px;height:150px;"/>
+                   <p>Price: ${drink.Price}</p>
+                 </div>`;
+      });
+      res.send(html);
+    } catch (err) {
+      console.error("Error displaying images:", err);
+      res.status(500).send("Error displaying images");
     }
   });
   

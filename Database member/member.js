@@ -14,24 +14,28 @@ async function initializeMemberCollectionIfNotExist(client) {
           Mname: "Thanat Phi",
           Tel: "0625916127",
           Points: 999,
+          Alumni: true
         },
         {
           MID: 1,
           Mname: "PhiPhi nat",
           Tel: "0123456789",
           Points: 3,
+          Alumni: false
         },
         {
           MID: 2,
           Mname: "Thanatos Thanat",
           Tel: "1234567890",
           Points: 4,
+          Alumni: true
         },
         {
           MID: 3,
           Mname: "Phi Phinat",
           Tel: "0987654321",
           Points: 5,
+          Alumni: false
         },
       ]);
 

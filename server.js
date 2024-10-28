@@ -178,9 +178,9 @@ app.get("/member/:tel", async (req, res) => {
 
 // Add a new member
 app.post("/member", async (req, res) => {
-  const { Mname, Tel } = req.body;
+  const { Mname, Tel, Alumni } = req.body;
 
-  if (!Mname || !Tel) {
+  if (!Mname || !Tel || Alumni === undefined ) {
     return res.status(400).json({ error: "All member fields are required" });
   }
 
@@ -200,7 +200,7 @@ app.post("/member", async (req, res) => {
     const MID = lastMember.length > 0 ? lastMember[0].MID + 1 : 0; 
     const Points = 0;
 
-    const newMember = { MID, Mname, Tel, Points };
+    const newMember = { MID, Mname, Tel, Points, Alumni };
     await db.collection("member").insertOne(newMember);
     res.status(201).json(newMember);
   } catch (err) {

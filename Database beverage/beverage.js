@@ -28,7 +28,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Drink_Name: "Espresso",
         Price: 50,
         DrinkType: "HOT",
-        img_src: "",
+        img_src: "/image/espresso.png",
         Tag: ["Coffee"]
       },
       {

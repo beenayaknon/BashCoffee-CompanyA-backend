@@ -220,6 +220,22 @@ app.get("/promotions", async (req, res) => {
   }
 });
 
+// Endpoint to get a promotion by Pro_ID
+app.get("/promotions/:Pro_ID", async (req, res) => {
+  try {
+    const promotion = await db.collection("Promotion").findOne({ Pro_ID: req.params.Pro_ID }); // Find promotion by Pro_ID
+
+    if (!promotion) {
+      return res.status(404).json({ message: "Promotion not found" }); // Send error if promotion not found
+    }
+
+    res.status(200).json(promotion); // Send the found promotion as response
+  } catch (err) {
+    console.error("Error fetching promotion:", err); // Log error
+    res.status(500).json({ error: "An error occurred while fetching the promotion" }); // Send error response
+  }
+});
+
 app.post("/promotions", async (req, res) => {
   try {
     const newPromotion = req.body;
@@ -232,6 +248,33 @@ app.post("/promotions", async (req, res) => {
   } catch (err) {
     console.error("Error creating promotion:", err);
     res.status(500).json({ error: "An error occurred while creating the promotion" });
+  }
+});
+
+// Endpoint to update a promotion by Pro_ID
+app.put("/promotions/:Pro_ID", async (req, res) => {
+  try {
+    const updatedPromotion = req.body; // Get the updated promotion data from request body
+
+    // Validate the required fields: Pro_ID and Promo_Description (ensure Promo_Description is not just whitespace)
+    if (!updatedPromotion.Pro_ID || !updatedPromotion.Promo_Description.trim()) {
+      return res.status(400).json({ error: "Pro_ID and Promo_Description are required fields." });
+    }
+
+    // Update the promotion in the database
+    const result = await db.collection("Promotion").updateOne(
+      { Pro_ID: req.params.Pro_ID }, // Filter to find the promotion by Pro_ID
+      { $set: updatedPromotion } // Update the promotion with the new data
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "Promotion not found" }); // Send error if promotion not found
+    }
+
+    res.status(200).json({ message: "Promotion updated successfully" }); // Send success response
+  } catch (err) {
+    console.error("Error updating promotion:", err); // Log error
+    res.status(500).json({ error: "An error occurred while updating the promotion" }); // Send error response
   }
 });
 

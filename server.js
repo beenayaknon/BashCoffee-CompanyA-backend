@@ -289,7 +289,7 @@ app.delete("/promotions/:Pro_ID", async (req, res) => {
         return res.status(404).json({ message: "Promotion not found" }); // Send error if promotion not found
       }
   
-      res.sendStatus(204); // Send no content response after successful deletion
+      res.status(200).json({ message: "Promotion deleted successfully", Pro_ID }); // Send success message with Pro_ID
     } catch (err) {
       console.error("Error deleting promotion:", err); // Log error
       res.status(500).json({ error: "An error occurred while deleting the promotion" }); // Send error response

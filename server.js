@@ -209,35 +209,49 @@ app.post("/member", async (req, res) => {
   }
 });
 
-// Endpoint to add points to a member
+// Add points to a member
 app.put("/member/add-points", async (req, res) => {
-  const { MID, points } = req.body; // Retrieve member ID and points to add from request body
+  const { MID, points } = req.body;
 
-  // Subtask 2: Validate input parameters
+  // Validate input parameters
   if (MID === undefined || points === undefined || typeof points !== "number" || points <= 0) {
     return res.status(400).json({ error: "Valid MID and a positive number of points are required." });
   }
 
   try {
-    // Check if member exists
-    const member = await client.collection("member").findOne({ MID });
+    console.log("Connecting to the database...");
+
+    // Access the database and collection
+    const db = client.db(dbName);
+    const collection = db.collection("member");
+
+    // Check if the member exists
+    const member = await collection.findOne({ MID });
+    console.log("Member found:", member); // Log the found member document
 
     if (!member) {
       return res.status(404).json({ error: "Member not found." });
     }
-  
-    // Increment the Points field for the member
-    const updatedMember = await client.collection("member").findOneAndUpdate(
+
+    // Attempt to update points
+    const result = await collection.updateOne(
       { MID },
-      { $inc: { Points: points } }, // Increment Points
-      { returnDocument: "after" } // Return updated document
+      { $inc: { Points: points } } // Increment Points
     );
 
-    // Return updated member data as response
-    res.status(200).json({ message: "Points added successfully", member: updatedMember.value });
+    // Log the result of the update operation
+    console.log("Update result:", result);
+
+    // Check if the update was successful
+    if (result.modifiedCount === 1) {
+      const updatedMember = await collection.findOne({ MID });
+      res.status(200).json({ message: "Points added successfully", member: updatedMember });
+    } else {
+      res.status(500).json({ error: "Failed to update points." });
+    }
   } catch (err) {
-    console.error("Error adding points to member:", err); // Log error
-    res.status(500).json({ error: "An error occurred while adding points" }); // Send error response
+    console.error("Error adding points to member:", err);
+    res.status(500).json({ error: "An error occurred while adding points" });
   }
 });
 

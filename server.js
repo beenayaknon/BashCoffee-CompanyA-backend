@@ -209,6 +209,43 @@ app.post("/member", async (req, res) => {
   }
 });
 
+// Endpoint to add points to a member
+app.put("/member/add-points", async (req, res) => {
+  const { MID, points } = req.body; // Retrieve member ID and points to add from request body
+
+  // Subtask 2: Validate input parameters
+  if (MID === undefined || points === undefined || typeof points !== "number" || points <= 0) {
+    return res.status(400).json({ error: "Valid MID and a positive number of points are required." });
+  }
+
+  try {
+    // Check if member exists
+    const member = await client.collection("member").findOne({ MID });
+
+    if (!member) {
+      return res.status(404).json({ error: "Member not found." });
+    }
+    
+    // Check if member has enough points
+    if (member.Points < points) {
+      return res.status(400).json({ error: "Insufficient points for redemption." });
+    }
+
+    // Increment the Points field for the member
+    const updatedMember = await client.collection("member").findOneAndUpdate(
+      { MID },
+      { $inc: { Points: points } }, // Increment Points
+      { returnDocument: "after" } // Return updated document
+    );
+
+    // Return updated member data as response
+    res.status(200).json({ message: "Points added successfully", member: updatedMember.value });
+  } catch (err) {
+    console.error("Error adding points to member:", err); // Log error
+    res.status(500).json({ error: "An error occurred while adding points" }); // Send error response
+  }
+});
+
 // Promotions endpoints
 app.get("/promotions", async (req, res) => {
   try {

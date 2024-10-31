@@ -225,12 +225,7 @@ app.put("/member/add-points", async (req, res) => {
     if (!member) {
       return res.status(404).json({ error: "Member not found." });
     }
-    
-    // Check if member has enough points
-    if (member.Points < points) {
-      return res.status(400).json({ error: "Insufficient points for redemption." });
-    }
-
+  
     // Increment the Points field for the member
     const updatedMember = await client.collection("member").findOneAndUpdate(
       { MID },

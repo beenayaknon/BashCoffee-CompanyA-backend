@@ -255,6 +255,50 @@ app.put("/member/add-points", async (req, res) => {
   }
 });
 
+// Redeem points from a member
+app.put("/member/redeem-points", async (req, res) => {
+  const { MID, points } = req.body;
+
+  // Validate input parameters
+  if (MID === undefined || points === undefined || typeof points !== "number" || points <= 0) {
+    return res.status(400).json({ error: "Valid MID and a positive number of points are required." });
+  }
+
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("member");
+
+    // Check if the member exists
+    const member = await collection.findOne({ MID });
+    if (!member) {
+      return res.status(404).json({ error: "Member not found." });
+    }
+
+    // Check if the member has enough points for redemption
+    if (member.Points < points) {
+      return res.status(400).json({ error: "Insufficient points for redemption." });
+    }
+
+    // Deduct points from the member
+    const result = await collection.updateOne(
+      { MID },
+      { $inc: { Points: -points } } // Deduct points
+    );
+
+    // Check if the update was successful
+    if (result.modifiedCount === 1) {
+      // Fetch updated member data
+      const updatedMember = await collection.findOne({ MID });
+      res.status(200).json({ message: "Points redeemed successfully", member: updatedMember });
+    } else {
+      res.status(500).json({ error: "Failed to redeem points." });
+    }
+  } catch (err) {
+    console.error("Error redeeming points from member:", err);
+    res.status(500).json({ error: "An error occurred while redeeming points" });
+  }
+});
+
 // Promotions endpoints
 app.get("/promotions", async (req, res) => {
   try {

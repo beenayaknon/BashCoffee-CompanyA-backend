@@ -5,9 +5,11 @@ Each collection of bakery, beverage, member, and discount are seperated in it's 
 for the get method recommended to write adjust or delete in server.js file 
 
 To Run the server don't forget to<br/>
+login to your mongo DB in your computer then <br/><br/>
 `npm install` <br/>
 `npm init -y`<br/>
 `npm install express`<br/>
+`npm install cors`<br/>
 `npm install mongodb`<br/>
 `npm install nodemon` <br/>
 

@@ -255,7 +255,6 @@ async function initializeBeverageCollectionIfNotExist(client) {
         img_src: "",
         Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
       },
-      [
         {
           Drink_ID: 115,
           Drink_Name: "Premium Matcha Latte",
@@ -466,7 +465,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         }
       ]
       
-    ]);
+    );
 
     console.log(`Collection '${collectionName}' created.`);
   } else {

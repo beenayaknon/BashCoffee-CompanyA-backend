@@ -1,9 +1,11 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
+const cors = require("cors");
 
 const app = express();
 const port = 3030;
 app.use(express.json());
+app.use(cors());
 
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
@@ -27,6 +29,10 @@ async function initializeCollections() {
     console.log("Connected successfully to MongoDB");
 
     db = client.db(dbName); // Assign the database reference
+
+        // Drop the database if it exists
+        await db.dropDatabase();
+        console.log(`Database ${dbName} dropped`);
     
     // Drop collections if they exist before initializing
     const collections = ['beverage', 'member', 'Promotion', 'bakery'];
@@ -147,6 +153,21 @@ app.get("/beverage/:name", async (req, res) => {
     }
   });
   
+  // Fetch beverage and bakery
+app.get("/menu", async (req, res) => {
+  try {
+    const drinks = await db.collection("beverage").find({}).toArray();
+    const bakeries = await db.collection("bakery").find({}).toArray();
+    
+    // Combine drinks and bakeries into one array
+    const menuItems = [...drinks, ...bakeries];
+    
+    res.status(200).json(menuItems);
+  } catch (err) {
+    console.error("Error fetching menu items:", err);
+    res.status(500).json({ error: "An error occurred while fetching menu items" });
+  }
+});
 
 // Member routes (same pattern as above, but with the connection established)
 app.get("/members", async (req, res) => {

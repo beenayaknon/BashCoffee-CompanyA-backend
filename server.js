@@ -178,9 +178,9 @@ app.get("/member/:tel", async (req, res) => {
 
 // Add a new member
 app.post("/member", async (req, res) => {
-  const { Mname, Tel } = req.body;
+  const { Mname, Tel, Alumni } = req.body;
 
-  if (!Mname || !Tel) {
+  if (!Mname || !Tel || Alumni === undefined ) {
     return res.status(400).json({ error: "All member fields are required" });
   }
 
@@ -200,12 +200,102 @@ app.post("/member", async (req, res) => {
     const MID = lastMember.length > 0 ? lastMember[0].MID + 1 : 0; 
     const Points = 0;
 
-    const newMember = { MID, Mname, Tel, Points };
+    const newMember = { MID, Mname, Tel, Points, Alumni };
     await db.collection("member").insertOne(newMember);
     res.status(201).json(newMember);
   } catch (err) {
     console.error("Error adding new member:", err);
     res.status(500).json({ error: "An error occurred while adding the member" });
+  }
+});
+
+// Add points to a member
+app.put("/member/add-points", async (req, res) => {
+  const { MID, points } = req.body;
+
+  // Validate input parameters
+  if (MID === undefined || points === undefined || typeof points !== "number" || points <= 0) {
+    return res.status(400).json({ error: "Valid MID and a positive number of points are required." });
+  }
+
+  try {
+    console.log("Connecting to the database...");
+
+    // Access the database and collection
+    const db = client.db(dbName);
+    const collection = db.collection("member");
+
+    // Check if the member exists
+    const member = await collection.findOne({ MID });
+    console.log("Member found:", member); // Log the found member document
+
+    if (!member) {
+      return res.status(404).json({ error: "Member not found." });
+    }
+
+    // Attempt to update points
+    const result = await collection.updateOne(
+      { MID },
+      { $inc: { Points: points } } // Increment Points
+    );
+
+    // Log the result of the update operation
+    console.log("Update result:", result);
+
+    // Check if the update was successful
+    if (result.modifiedCount === 1) {
+      const updatedMember = await collection.findOne({ MID });
+      res.status(200).json({ message: "Points added successfully", member: updatedMember });
+    } else {
+      res.status(500).json({ error: "Failed to update points." });
+    }
+  } catch (err) {
+    console.error("Error adding points to member:", err);
+    res.status(500).json({ error: "An error occurred while adding points" });
+  }
+});
+
+// Redeem points from a member
+app.put("/member/redeem-points", async (req, res) => {
+  const { MID, points } = req.body;
+
+  // Validate input parameters
+  if (MID === undefined || points === undefined || typeof points !== "number" || points <= 0) {
+    return res.status(400).json({ error: "Valid MID and a positive number of points are required." });
+  }
+
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("member");
+
+    // Check if the member exists
+    const member = await collection.findOne({ MID });
+    if (!member) {
+      return res.status(404).json({ error: "Member not found." });
+    }
+
+    // Check if the member has enough points for redemption
+    if (member.Points < points) {
+      return res.status(400).json({ error: "Insufficient points for redemption." });
+    }
+
+    // Deduct points from the member
+    const result = await collection.updateOne(
+      { MID },
+      { $inc: { Points: -points } } // Deduct points
+    );
+
+    // Check if the update was successful
+    if (result.modifiedCount === 1) {
+      // Fetch updated member data
+      const updatedMember = await collection.findOne({ MID });
+      res.status(200).json({ message: "Points redeemed successfully", member: updatedMember });
+    } else {
+      res.status(500).json({ error: "Failed to redeem points." });
+    }
+  } catch (err) {
+    console.error("Error redeeming points from member:", err);
+    res.status(500).json({ error: "An error occurred while redeeming points" });
   }
 });
 
@@ -289,7 +379,7 @@ app.delete("/promotions/:Pro_ID", async (req, res) => {
         return res.status(404).json({ message: "Promotion not found" }); // Send error if promotion not found
       }
   
-      res.sendStatus(204); // Send no content response after successful deletion
+      res.status(200).json({ message: "Promotion deleted successfully", Pro_ID }); // Send success message with Pro_ID
     } catch (err) {
       console.error("Error deleting promotion:", err); // Log error
       res.status(500).json({ error: "An error occurred while deleting the promotion" }); // Send error response

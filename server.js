@@ -514,6 +514,50 @@ app.get('/bakery', async (req, res) => {
     }
   });
 
+//-----------------------------//
+//Post method
+// Endpoint for processing customer order
+// Endpoint for processing multiple customer orders
+app.post("/orders", async (req, res) => {
+  try {
+    const ordersData = req.body; // Get array of order data from request body
+
+    const responses = await Promise.all(ordersData.map(async (orderData) => {
+      // 1. Query member by phone number
+      const customer = await getMemberByPhone(db, orderData.Tel);
+      if (!customer) {
+        return { error: `Customer not found for Tel: ${orderData.Tel}` };
+      }
+
+      // 2. Query each menu item
+      const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
+        const [name, type] = [item[0], item[1]]; // Get menu name and type
+        const menuItem = await getBeverageByName(db, name) || await getBakeryByID(db, name);
+        return menuItem;
+      }));
+
+      // 3. Query promotion by code (if applicable)
+      const promotion = orderData.promotion && orderData.promotion !== "None"
+        ? await getPromotionByID(db, orderData.promotion)
+        : null;
+
+      // Construct individual response
+      return {
+        date: orderData.date,
+        Customer: customer,
+        Menu: menuItems,
+        Promotion: promotion,
+        totalPrice: orderData.totalPrice
+      };
+    }));
+
+    res.status(200).json(responses); // Send back an array of responses
+  } catch (err) {
+    console.error("Error processing orders:", err);
+    res.status(500).json({ error: "An error occurred while processing the orders" });
+  }
+});
+
 
 // Start the server
 app.listen(port, () => {

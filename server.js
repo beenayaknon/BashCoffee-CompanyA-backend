@@ -442,14 +442,30 @@ app.delete("/promotions/:Pro_ID", async (req, res) => {
 
 // GET method to fetch all bakery items
 app.get('/bakery', async (req, res) => {
-    try {
-      const tagQuery = req.query.tag; // Get the tag query parameter
-      const filter = tagQuery ? { tag: { $in: [tagQuery] }} : {}; // Create filter based on the tag query
-  
-      console.log("Filter being used:", filter); // Log the filter being used
-  
-      const items = await db.collection("bakery").find(filter).toArray(); // Fetch items from the bakery collection
-      console.log("Items found:", items); // Log the found items
+      try {
+        const tagQuery = req.query.tag;
+        const minPrice = parseFloat(req.query.minPrice);
+        const maxPrice = parseFloat(req.query.maxPrice);
+
+        // Initialize filter object
+        const filter = {};
+
+        // Add tag filter if provided
+        if (tagQuery) {
+          filter.Tag = { $in: [tagQuery] };
+        }
+
+        // Add price range filter if minPrice or maxPrice is provided
+        if (!isNaN(minPrice) || !isNaN(maxPrice)) {
+          filter["Price.singlePrice"] = {};
+          if (!isNaN(minPrice)) filter["Price.singlePrice"].$gte = minPrice;
+          if (!isNaN(maxPrice)) filter["Price.singlePrice"].$lte = maxPrice;
+        }
+
+       console.log("Filter being used:", filter); // Log the filter being used
+
+       const items = await db.collection("bakery").find(filter).toArray(); // Fetch items from the bakery collection
+       console.log("Items found:", items); // Log the found items
   
       res.status(200).json(items); // Return data as JSON
     } catch (err) {
@@ -475,7 +491,6 @@ app.get('/bakery', async (req, res) => {
       res.status(500).json({ error: 'Error occurred' }); // Return a 500 error response
     }
   });
-
 
 
 // Start the server

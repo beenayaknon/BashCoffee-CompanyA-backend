@@ -590,6 +590,13 @@ const order = {
 await db.collection("orders").insertOne(order);
 console.log("Order inserted:", order);
 
+// Function to retrieve order history
+async function getOrderHistory(client) {
+    const db = client.db(dbName);
+    const orders = await db.collection("orders").find({}).toArray();
+    return orders;
+}
+
 // POST route to create a new order
 app.post("/orders", async (req, res) => {
     try {
@@ -611,7 +618,16 @@ app.post("/orders", async (req, res) => {
     }
 });
 
-
+// GET route to retrieve order history  for view history 
+app.get("/orders/history", async (req, res) => {
+    try {
+        const orders = await getOrderHistory(client);
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error("Error retrieving order history:", error);
+        res.status(500).json({ error: "An error occurred while retrieving order history" });
+    }
+});
 
 // Start the server
 app.listen(port, () => {

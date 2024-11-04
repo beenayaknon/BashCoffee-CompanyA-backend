@@ -442,7 +442,7 @@ app.delete("/promotions/:Pro_ID", async (req, res) => {
 
 // GET method to fetch all bakery items
 app.get('/bakery', async (req, res) => {
-      try {
+   try {
         const tagQuery = req.query.tag;
         const minPrice = parseFloat(req.query.minPrice);
         const maxPrice = parseFloat(req.query.maxPrice);
@@ -452,14 +452,14 @@ app.get('/bakery', async (req, res) => {
 
         // Add tag filter if provided
         if (tagQuery) {
-          filter.Tag = { $in: [tagQuery] };
+            filter.Tag = { $in: [tagQuery] };
         }
 
         // Add price range filter if minPrice or maxPrice is provided
         if (!isNaN(minPrice) || !isNaN(maxPrice)) {
-          filter["Price.singlePrice"] = {};
-          if (!isNaN(minPrice)) filter["Price.singlePrice"].$gte = minPrice;
-          if (!isNaN(maxPrice)) filter["Price.singlePrice"].$lte = maxPrice;
+            filter["Price.singlePrice"] = {};
+            if (!isNaN(minPrice)) filter["Price.singlePrice"].$gte = minPrice;
+            if (!isNaN(maxPrice)) filter["Price.singlePrice"].$lte = maxPrice;
         }
 
        console.log("Filter being used:", filter); // Log the filter being used

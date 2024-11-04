@@ -590,6 +590,27 @@ const order = {
 await db.collection("orders").insertOne(order);
 console.log("Order inserted:", order);
 
+// POST route to create a new order
+app.post("/orders", async (req, res) => {
+    try {
+        const orderData = req.body; // Receive order data from frontend
+
+        // Check if all necessary data is provided
+        if (!orderData.Customer || !orderData.Tel || !orderData.Menu || !orderData.totalPrice) {
+            return res.status(400).json({ error: "Incomplete order information" });
+        }
+
+        // Call insertOrder function to save the order
+        await insertOrder(orderData);
+
+        // Send response when the order is successfully saved
+        res.status(201).json({ message: "Order has been successfully recorded" });
+    } catch (error) {
+        console.error("Error inserting order:", error);
+        res.status(500).json({ error: "An error occurred while recording the order" });
+    }
+});
+
 
 
 // Start the server

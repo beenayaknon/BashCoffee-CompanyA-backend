@@ -10,93 +10,141 @@ async function initializbakeryCollectionIfNotExist(client) {
     if (collections.length === 0) {
       await db.createCollection('bakery');
 
+      // Insert all data
       // Insert some data
       await db.collection('bakery').insertMany([
         {
           Bakery_ID: 201,
-          Bakery_Name: "Cookies",
-          Description: "Freshly baked cookies with a rich, buttery flavor and a soft, chewy texture.",
-          Price: {
-            singlePrice: 70
-          },
+          Bakery_Name: "Plain Croissant",
+          Description: "A buttery, flaky pastry with a golden, crispy crust and a soft, airy interior. Made with layers of rich dough, perfect on its own or with jam.",
+          Price: { singlePrice: 45 },
           Category: "Bakery",
-          Tag: ["bakery", "cookies"],
+          Tag: ["croissant", "bakery"],
           isRecommended: false,
-          image_src: "/images/drinks/24.png"
+          image_src: "path/to/plain_croissant_image.jpg"
         },
         {
           Bakery_ID: 202,
-          Bakery_Name: "PlainCroissant",
-          Description: "Freshly baked cookies with a rich, buttery flavor and a soft, chewy texture.",
-          Price: {
-            singlePrice: 45
-          },
+          Bakery_Name: "Chocolate Croissant",
+          Description: "A flaky, buttery pastry with a rich, chocolate filling, combining lightness and indulgence.",
+          Price: { singlePrice: 50 },
           Category: "Bakery",
-          Tag: ["bakery", "croissant"],
-          isRecommended: false,
-          image_src: "/images/drinks/24.png"
+          Tag: ["croissant", "chocolate", "bakery", "sweet"],
+          isRecommended: true,
+          image_src: "path/to/chocolate_croissant_image.jpg"
         },
         {
           Bakery_ID: 203,
-          Bakery_Name: "ChocolateCroissant",
-          Description: "A buttery, flaky pastry with a golden, crispy crust and a soft, airy interior. Made with layers of rich dough, the plain croissant is perfect on its own or with a touch of jam or butter, offering a delicate balance of lightness and indulgence.",
-          Price: {
-            singlePrice: 50
-          },
-          Category: "Bakery",
-          Tag: ["croissant", "chocolate", "bakery", "sweet"],
-          isRecommended: true,
-          image_src: "/images/drinks/24.png"
-        },
-        {
-          Bakery_ID: 204,
-          Bakery_Name: "ChocolateCroissant",
-          Description: " A flaky, buttery pastry with a rich, chocolate filling. This classic French treat combines the lightness of a croissant with the decadence of chocolate, creating a perfect balance of texture and flavor.",
-          Price: {
-            singlePrice: 50
-          },
-          Category: "Bakery",
-          Tag: ["croissant", "chocolate", "bakery", "sweet"],
-          isRecommended: true,
-          image_src: "/images/drinks/24.png"
-        },
-        {
-          Bakery_ID: 205,
-          Bakery_Name: "NutellaCroissant",
-          Description: " A flaky, buttery croissant filled with rich, creamy Nutella, offering a perfect blend of crisp pastry layers and smooth, chocolate-hazelnut goodness in every bite. An indulgent treat that combines the best of French pastry with a decadent, chocolatey twist.",
-          Price: {
-            singlePrice: 65
-          },
+          Bakery_Name: "Nutella Croissant",
+          Description: "A flaky, buttery croissant filled with rich, creamy Nutella, combining layers of pastry with chocolate-hazelnut goodness.",
+          Price: { singlePrice: 65 },
           Category: "Bakery",
           Tag: ["croissant", "nutella", "bakery", "chocolate", "sweet"],
           isRecommended: true,
-          image_src: "/images/drinks/24.png"
+          image_src: "path/to/nutella_croissant_image.jpg"
         },
         {
-          Bakery_ID: 206,
-          Bakery_Name: "CreamCheeseDanish",
-          Description: "A delightful pastry with a soft, flaky crust and a creamy, tangy cream cheese filling at its center. This Danish is lightly golden and slightly crisp on the edges, with a rich, melt-in-your-mouth flavor that perfectly balances sweetness and creaminess. A treat that combines texture and taste, ideal for any time of day.",
-          Price: {
-            singlePrice: 50
-          },
+          Bakery_ID: 204,
+          Bakery_Name: "Cream Cheese Danish",
+          Description: "A delightful pastry with a soft, flaky crust and a creamy, tangy cream cheese filling at its center.",
+          Price: { singlePrice: 50 },
           Category: "Bakery",
           Tag: ["danish", "cream cheese", "bakery", "cheese"],
           isRecommended: true,
-          image_src: "/images/drinks/24.png"
+          image_src: "path/to/cream_cheese_danish_image.jpg"
+        },
+        {
+          Bakery_ID: 205,
+          Bakery_Name: "Danish Custard",
+          Description: "A soft, flaky pastry with creamy custard filling, balancing sweetness and richness.",
+          Price: { singlePrice: 45 },
+          Category: "Bakery",
+          Tag: ["danish", "custard", "bakery", "sweet"],
+          isRecommended: false,
+          image_src: "path/to/danish_custard_image.jpg"
+        },
+        {
+          Bakery_ID: 206,
+          Bakery_Name: "Ham Cheese Croissant",
+          Description: "A savory croissant filled with ham and melted cheese, perfect for a satisfying snack.",
+          Price: { singlePrice: 65 },
+          Category: "Bakery",
+          Tag: ["croissant", "ham", "cheese", "bakery"],
+          isRecommended: false,
+          image_src: "path/to/ham_cheese_croissant_image.jpg"
         },
         {
           Bakery_ID: 207,
+          Bakery_Name: "Croffle",
+          Description: "A fusion of croissant and waffle, with a crispy exterior and soft layers inside.",
+          Price: { singlePrice: 45 },
+          Category: "Bakery",
+          Tag: ["croffle", "waffle", "bakery", "sweet"],
+          isRecommended: false,
+          image_src: "path/to/croffle_image.jpg"
+        },
+        {
+          Bakery_ID: 208,
+          Bakery_Name: "Madeleine",
+          Description: "A small, soft cake with a light, buttery flavor, perfect for tea time.",
+          Price: { singlePrice: 30 },
+          Category: "Bakery",
+          Tag: ["madeleine", "bakery", "cake"],
+          isRecommended: false,
+          image_src: "path/to/madeleine_image.jpg"
+        },
+        {
+          Bakery_ID: 209,
+          Bakery_Name: "Original Cookies",
+          Description: "Classic cookies with a perfect balance of crispiness and chewiness.",
+          Price: { singlePrice: 45 },
+          Category: "Bakery",
+          Tag: ["cookies", "bakery", "sweet"],
+          isRecommended: false,
+          image_src: "path/to/original_cookies_image.jpg"
+        },
+        {
+          Bakery_ID: 210,
+          Bakery_Name: "Lava Chocolate Cookies",
+          Description: "A rich chocolate cookie with a gooey lava center, perfect for chocolate lovers.",
+          Price: { singlePrice: 55 },
+          Category: "Bakery",
+          Tag: ["cookies", "lava", "chocolate", "bakery", "sweet"],
+          isRecommended: true,
+          image_src: "path/to/lava_chocolate_cookies_image.jpg"
+        },
+        {
+          Bakery_ID: 211,
+          Bakery_Name: "Brownies",
+          Description: "A dense, fudgy brownie with intense chocolate flavor, satisfying any sweet tooth.",
+          Price: { singlePrice: 65 },
+          Category: "Bakery",
+          Tag: ["brownies", "bakery", "chocolate", "sweet"],
+          isRecommended: true,
+          image_src: "path/to/brownies_image.jpg"
+        },
+        {
+          Bakery_ID: 212,
           Bakery_Name: "Donut",
-          Description: "A soft, sweet ring-shaped pastry that's fried to golden perfection and often coated in sugar, glaze, or icing. This classic treat has a light, fluffy interior and a slightly crispy exterior, making it an irresistible snack any time of day.",
-          Price: {
-            singlePrice: 50
-          },
+          Description: "A soft, sweet ring-shaped pastry, fried to golden perfection.",
+          Price: { singlePrice: 50 },
           Category: "Bakery",
           Tag: ["donut", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "/images/drinks/24.png"
+          image_src: "path/to/donut_image.jpg"
         },
+        {
+          Bakery_ID: 213,
+          Bakery_Name: "Kanom Khai",
+          Description: "A traditional Thai dessert with a soft, sweet texture, perfect for a light treat.",
+          Price: { singlePrice: 25 },
+          Category: "Bakery",
+          Tag: ["kanom khai", "thai dessert", "bakery", "sweet"],
+          isRecommended: false,
+          image_src: "path/to/kanom_khai_image.jpg"
+        }
       ]);
+
 
       console.log(`Collection 'bakery' created with initial bakery items.`);
     } else {

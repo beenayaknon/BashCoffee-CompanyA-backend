@@ -526,6 +526,69 @@ async function insertOrder(client, orderData) {
         console.log("Collection 'orders' created");
     }
 
+const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
+    const [name, type, price, addOn] = item;
+
+    const beverageItem = await db.collection("beverage").findOne({ Drink_Name: name });
+    const bakeryItem = await db.collection("bakery").findOne({ Bakery_Name: name });
+
+    let menuItem;
+    if (beverageItem) {
+        // beverage
+        menuItem = {
+            name: beverageItem.Drink_Name,
+            type: type || beverageItem.DrinkType,
+            price: beverageItem.Price[type === "COLD" ? "coldPrice" : "hotPrice"],
+            addOn: addOn || "None",
+            category: "beverage",
+            details: {
+                Drink_ID: beverageItem.Drink_ID,
+                Description: beverageItem.Description,
+                Price: beverageItem.Price,
+                Tag: beverageItem.Tag,
+                isRecommended: beverageItem.isRecommended,
+                image_src: beverageItem.img_src,
+                AddOns: beverageItem.AddOns
+            }
+        };
+    } else if (bakeryItem) {
+        // bakery
+        menuItem = {
+            name: bakeryItem.Bakery_Name,
+            type: "Bakery",
+            price: bakeryItem.Price.singlePrice,
+            addOn: addOn || "None",
+            category: "bakery",
+            details: {
+                Bakery_ID: bakeryItem.Bakery_ID,
+                Description: bakeryItem.Description,
+                Price: bakeryItem.Price,
+                Tag: bakeryItem.Tag,
+                isRecommended: bakeryItem.isRecommended,
+                image_src: bakeryItem.image_src
+            }
+        };
+    } else {
+        // if not found
+        throw new Error(`Item not found: ${name}`);
+    }
+
+    return menuItem;
+}));
+
+// create order object
+const order = {
+    date: orderData.date,
+    Customer: orderData.Customer,
+    Tel: orderData.Tel,
+    Menu: menuItems,
+    promotion: orderData.promotion,
+    totalPrice: orderData.totalPrice
+};
+
+// save in collection orders
+await db.collection("orders").insertOne(order);
+console.log("Order inserted:", order);
 
 
 

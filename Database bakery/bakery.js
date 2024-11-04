@@ -11,17 +11,16 @@ async function initializbakeryCollectionIfNotExist(client) {
       await db.createCollection('bakery');
 
       // Insert all data
-      // Insert some data
       await db.collection('bakery').insertMany([
         {
           Bakery_ID: 201,
           Bakery_Name: "Plain Croissant",
-          Description: "A buttery, flaky pastry with a golden, crispy crust and a soft, airy interior. Made with layers of rich dough, perfect on its own or with jam.",
+          Description: "The classic crescent-shaped pastry made from flaky layers of buttery dough",
           Price: { singlePrice: 45 },
           Category: "Bakery",
           Tag: ["croissant", "bakery"],
           isRecommended: false,
-          image_src: "path/to/plain_croissant_image.jpg"
+          image_src: "/images/bakery/cro.png"
         },
         {
           Bakery_ID: 202,
@@ -31,7 +30,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["croissant", "chocolate", "bakery", "sweet"],
           isRecommended: true,
-          image_src: "path/to/chocolate_croissant_image.jpg"
+          image_src: "/images/bakery/chocolate.png"
         },
         {
           Bakery_ID: 203,
@@ -41,7 +40,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["croissant", "nutella", "bakery", "chocolate", "sweet"],
           isRecommended: true,
-          image_src: "path/to/nutella_croissant_image.jpg"
+          image_src: "/images/bakery/nutella.png"
         },
         {
           Bakery_ID: 204,
@@ -51,7 +50,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["danish", "cream cheese", "bakery", "cheese"],
           isRecommended: true,
-          image_src: "path/to/cream_cheese_danish_image.jpg"
+          image_src: "/images/bakery/creamcheesedanish.png"
         },
         {
           Bakery_ID: 205,
@@ -61,7 +60,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["danish", "custard", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "path/to/danish_custard_image.jpg"
+          image_src: "/images/bakery/danishcustard.png"
         },
         {
           Bakery_ID: 206,
@@ -71,7 +70,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["croissant", "ham", "cheese", "bakery"],
           isRecommended: false,
-          image_src: "path/to/ham_cheese_croissant_image.jpg"
+          image_src: "/images/bakery/hamcheese.png"
         },
         {
           Bakery_ID: 207,
@@ -81,7 +80,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["croffle", "waffle", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "path/to/croffle_image.jpg"
+          image_src: "/images/bakery/croffle.png"
         },
         {
           Bakery_ID: 208,
@@ -91,7 +90,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["madeleine", "bakery", "cake"],
           isRecommended: false,
-          image_src: "path/to/madeleine_image.jpg"
+          image_src: "/images/bakery/madeleine.png"
         },
         {
           Bakery_ID: 209,
@@ -101,7 +100,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["cookies", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "path/to/original_cookies_image.jpg"
+          image_src: "/images/bakery/oricookie.png"
         },
         {
           Bakery_ID: 210,
@@ -111,7 +110,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["cookies", "lava", "chocolate", "bakery", "sweet"],
           isRecommended: true,
-          image_src: "path/to/lava_chocolate_cookies_image.jpg"
+          image_src: "/images/bakery/lavachoccook.png"
         },
         {
           Bakery_ID: 211,
@@ -121,7 +120,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["brownies", "bakery", "chocolate", "sweet"],
           isRecommended: true,
-          image_src: "path/to/brownies_image.jpg"
+          image_src: "/images/bakery/brownies.png"
         },
         {
           Bakery_ID: 212,
@@ -131,7 +130,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["donut", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "path/to/donut_image.jpg"
+          image_src: "/images/bakery/donut.png"
         },
         {
           Bakery_ID: 213,
@@ -141,7 +140,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["kanom khai", "thai dessert", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "path/to/kanom_khai_image.jpg"
+          image_src: "/images/bakery/kanomkhai.png"
         }
       ]);
 

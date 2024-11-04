@@ -230,6 +230,39 @@ app.post("/member", async (req, res) => {
   }
 });
 
+//View points
+app.get("/member/view-points/:tel", async (req, res) => {
+  const { tel } = req.params;
+
+  // Validate input parameters
+  if (!tel) {
+    return res.status(400).json({ error: "Valid phone number is required." });
+  }
+
+  try {
+    const member = await db.collection("member").findOne({ Tel: tel });
+
+    if (member) {
+      // Prepare response with member details and points
+      const memberPointsDetails = {
+        MID: member.MID,
+        Name: member.Mname,
+        Phone: member.Tel,
+        Points: member.Points,
+        Alumni: member.Alumni,
+      };
+
+      res.status(200).json(memberPointsDetails);
+    } else {
+      res.status(404).json({ error: "Member not found." });
+    }
+  } catch (err) {
+    console.error("Error fetching member points by phone number:", err);
+    res.status(500).json({ error: "An error occurred while fetching the member points." });
+  }
+});
+
+
 // Add points to a member
 app.put("/member/add-points", async (req, res) => {
   const { MID, points } = req.body;
@@ -442,7 +475,8 @@ app.get('/bakery', async (req, res) => {
       res.status(500).json({ error: 'Error occurred' }); // Return a 500 error response
     }
   });
-  
+
+
 
 // Start the server
 app.listen(port, () => {

@@ -60,6 +60,28 @@ async function initializeCollections() {
 // Call initializeCollections when the server starts
 initializeCollections();
 
+
+// Query Collection beverage
+async function getBeverageByName(db, name) {
+  return await db.collection('beverage').findOne({ Drink_Name: name });
+}
+
+// Query Collection member
+async function getMemberByPhone(db, phone) {
+  return await db.collection('member').findOne({ Tel: phone });
+}
+
+// Query Collection Promotion
+async function getPromotionByID(db, ID) {
+  return await db.collection('Promotion').findOne({ Pro_ID: ID });
+}
+
+// Query Collection bakery
+async function getBakeryByID(db, bakeryName) {
+  return await db.collection('bakery').findOne({ Bakery_Name: bakeryName });
+}
+
+
 // Define beverage routes
 app.get("/beverages", async (req, res) => {
   try {
@@ -249,7 +271,7 @@ app.get("/member/view-points/:tel", async (req, res) => {
         Name: member.Mname,
         Phone: member.Tel,
         Points: member.Points,
-        Alumni: member.Alumni,
+        Alumni: member.Alumni, // Want to show ?
       };
 
       res.status(200).json(memberPointsDetails);

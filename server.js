@@ -14,7 +14,8 @@ const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 
 // Serve static files from the "public" directory
-app.use("/image", express.static("Database beverage/images"));
+// app.use("/image", express.static("Database beverage/images"));
+app.use("/image", express.static(path.join(__dirname, "Database beverage/images")));
 
 const dbName = "BashCoffeeDB"; // Define your database name here
 let db; // Initialize a variable to hold the database reference

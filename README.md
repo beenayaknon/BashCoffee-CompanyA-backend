@@ -13,5 +13,11 @@ login to your mongo DB in your computer then <br/><br/>
 `npm install mongodb`<br/>
 `npm install nodemon` <br/>
 
+For export CSV<br/>
+`npm install json2csv mongodb`<br/>
+`npm install csv-writer`<br/>
+
 then run server by<br/>
 `npm start` 
+
+If want to export the csv, run `node exportRecords.js`<br/>

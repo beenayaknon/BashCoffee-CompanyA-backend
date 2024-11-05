@@ -196,6 +196,29 @@ app.get("/menu", async (req, res) => {
   }
 });
 
+app.get("/menu/:id", async (req, res) => {
+  try {
+    const itemId = parseInt(req.params.id); // Get ID from URL parameter and convert to integer
+
+    // First, try to find the item in the 'beverage' collection
+    let item = await db.collection("beverage").findOne({ Drink_ID: itemId });
+
+    // If not found in 'beverage', try 'bakery'
+    if (!item) {
+      item = await db.collection("bakery").findOne({ Bakery_ID: itemId });
+    }
+
+    if (item) {
+      res.status(200).json(item);
+    } else {
+      res.status(404).json({ error: "Item not found" });
+    }
+  } catch (err) {
+    console.error("Error fetching item:", err);
+    res.status(500).json({ error: "An error occurred while fetching the item" });
+  }
+});
+
 // Member routes (same pattern as above, but with the connection established)
 app.get("/members", async (req, res) => {
   try {

@@ -582,12 +582,12 @@ async function insertRecord(client, orderData) {
 // Function to retrieve record history
 async function getRecordHistory(client) {
     const db = client.db(dbName);
-    const records = await db.collection(collectionName).find({}).toArray();
-    return records;
+    const record = await db.collection(collectionName).find({}).toArray();
+    return record;
 }
 
 // POST route to create a new record
-app.post("/records", async (req, res) => {
+app.post("/record", async (req, res) => {
     try {
         const orderData = req.body;
 
@@ -606,7 +606,7 @@ app.post("/records", async (req, res) => {
 // GET route to retrieve record history
 app.get("/record", async (req, res) => {
     try {
-        const records = await getRecordHistory(client);
+        const record = await getRecordHistory(client);
         res.status(200).json(records);
     } catch (error) {
         console.error("Error retrieving record history:", error);

@@ -2,11 +2,13 @@ const express = require("express");
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
 const { Timestamp } = require("mongodb");
+const path = require('path');
 
 const app = express();
 const port = 3030;
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname))); // Serve static files from the root directory
 
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
@@ -536,6 +538,8 @@ async function insertRecord(client, orderData) {
     const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
         const [name, type, price, addOn] = item;
 
+        console.log(`Checking for item: ${name}`); // Add this line to log the name being checked
+
         // Fetch beverage or bakery item based on name
         const beverageItem = await db.collection("beverage").findOne({ Drink_Name: name });
         console.log("Beverage Item:", beverageItem);
@@ -568,6 +572,7 @@ async function insertRecord(client, orderData) {
         }
 
         return menuItem;
+
     }));
 
     // Prepare the record to insert
@@ -601,6 +606,11 @@ app.post("/record", async (req, res) => {
         // Check for required fields, including promotion
         if (!orderData.Customer || !orderData.Tel || !orderData.Menu || !orderData.totalPrice || !orderData.promotion) {
             return res.status(400).json({ error: "Incomplete order information" });
+        }
+
+        // Ensure Menu is an array
+        if (typeof orderData.Menu === 'string') {
+            orderData.Menu = orderData.Menu.split(',').map(item => item.trim());
         }
 
         // Attempt to insert the record

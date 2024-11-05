@@ -521,15 +521,16 @@ app.get('/bakery', async (req, res) => {
 // Modified function to insert records into the 'record' collection
 // Function to insert the record into the database
 async function insertRecord(client, orderData) {
+    // Define the collection
+    const collection = db.collection("record");
 
     // Check if the 'record' collection exists
-const collections = await db.listCollections().toArray();
-const collectionExists = collections.some(col => col.name === "record");
-if (!collectionExists) {
-    await db.createCollection("record");
-    console.log("Collection 'record' created");
-}
-
+    const collections = await db.listCollections().toArray();
+    const collectionExists = collections.some(col => col.name === "record");
+    if (!collectionExists) {
+        await db.createCollection("record");
+        console.log("Collection 'record' created");
+    }
 
     // Map over the Menu items in orderData to construct the menuItems array
     const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
@@ -537,7 +538,10 @@ if (!collectionExists) {
 
         // Fetch beverage or bakery item based on name
         const beverageItem = await db.collection("beverage").findOne({ Drink_Name: name });
+        console.log("Beverage Item:", beverageItem);
+
         const bakeryItem = await db.collection("bakery").findOne({ Bakery_Name: name });
+        console.log("Bakery Item:", bakeryItem);
 
         let menuItem;
         if (beverageItem) {
@@ -576,10 +580,11 @@ if (!collectionExists) {
         createdAt: new Date() // Adding a timestamp
     };
 
-  // Insert the record into the 'record' collection
+    // Insert the record into the 'record' collection
     await collection.insertOne(record);
     console.log("Order inserted into 'record':", record);
 }
+
 
 
 // Function to retrieve record history
@@ -603,7 +608,7 @@ app.post("/record", async (req, res) => {
         res.status(201).json({ message: "Record has been successfully recorded" });
     } catch (error) {
         // Log the error details for debugging
-        console.error("Error inserting record:", JSON.stringify(error, null, 2));
+        console.error("Error inserting record:", error.message, error.stack);
 
         // Provide a response with a more general error message
         res.status(500).json({ error: "An error occurred while recording the order" });

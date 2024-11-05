@@ -1,9 +1,24 @@
+//install first --> 1.npm install json2csv mongodb
+// 2.npm install csv-writer
+
+
+
 const { MongoClient } = require('mongodb');
 const fs = require('fs');
-const path = require('path');
+const path = require('path'); // Import the 'path' module
+const express = require("express");
+const cors = require("cors");
+const { Timestamp } = require("mongodb");
+
+const app = express();
+const port = 3030;
+app.use(express.json());
+app.use(cors());
 const csvWriter = require('csv-writer').createObjectCsvWriter;
 
-const uri = 'your_mongodb_connection_string'; // Update this with your MongoDB connection string
+const uri = "mongodb://localhost:27017";
+const client = new MongoClient(uri);
+
 const dbName = 'BashCoffeeDB';
 const collectionName = 'record';
 
@@ -24,7 +39,7 @@ async function exportRecordsToCSV() {
         }
 
         // Prepare CSV writer
-        const csvFilePath = path.join(__dirname, 'records.csv');
+        const csvFilePath = path.join(__dirname, 'records.csv'); // Use 'path' here
         const writer = csvWriter({
             path: csvFilePath,
             header: [

@@ -519,21 +519,23 @@ app.get('/bakery', async (req, res) => {
 
 //-----------------------------//
 // Modified function to insert records into the 'record' collection
+// Function to insert the record into the database
 async function insertRecord(client, orderData) {
-    const db = client.db(dbName);
 
-    // Check if the collection 'record' exists
-    const collections = await db.listCollections({ name: collectionName }).toArray();
-    if (collections.length === 0) {
-        // If it doesn't exist, create it
-        await db.createCollection(collectionName);
-        console.log("Collection 'record' created");
-    }
+    // Check if the 'record' collection exists
+const collections = await db.listCollections().toArray();
+const collectionExists = collections.some(col => col.name === "record");
+if (!collectionExists) {
+    await db.createCollection("record");
+    console.log("Collection 'record' created");
+}
+
 
     // Map over the Menu items in orderData to construct the menuItems array
     const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
         const [name, type, price, addOn] = item;
 
+        // Fetch beverage or bakery item based on name
         const beverageItem = await db.collection("beverage").findOne({ Drink_Name: name });
         const bakeryItem = await db.collection("bakery").findOne({ Bakery_Name: name });
 
@@ -541,18 +543,19 @@ async function insertRecord(client, orderData) {
         if (beverageItem) {
             // Create a beverage menu item
             menuItem = {
-                name: beverageItem.Drink_Name,
-                type: type || beverageItem.DrinkType,
-                price: beverageItem.Price[type === "COLD" ? "coldPrice" : "hotPrice"],
-                addOn: addOn || "None",
+                Drink_Name: beverageItem.Drink_Name,
+                Drink_Type: type || beverageItem.DrinkType,
+                Price: price || (type === "COLD" ? beverageItem.Price.coldPrice : beverageItem.Price.hotPrice),
+                Add_On: addOn || "None",
                 category: "beverage",
             };
         } else if (bakeryItem) {
             // Create a bakery menu item
             menuItem = {
-                name: bakeryItem.Bakery_Name,
-                type: "Bakery",
-                price: bakeryItem.Price.singlePrice,
+                Drink_Name: bakeryItem.Bakery_Name,
+                Drink_Type: "Bakery",
+                Price: bakeryItem.Price.singlePrice,
+                Add_On: addOn || "None",
                 category: "bakery",
             };
         } else {
@@ -563,26 +566,25 @@ async function insertRecord(client, orderData) {
         return menuItem;
     }));
 
-    // Create the order object to insert
-    const order = {
-        date: orderData.date,
+    // Prepare the record to insert
+    const record = {
         Customer: orderData.Customer,
         Tel: orderData.Tel,
         Menu: menuItems,
         promotion: orderData.promotion,
         totalPrice: orderData.totalPrice,
+        createdAt: new Date() // Adding a timestamp
     };
 
-    // Insert the order into the 'record' collection
-    await db.collection(collectionName).insertOne(order);
-    console.log("Order inserted into 'record':", order);
+  // Insert the record into the 'record' collection
+    await collection.insertOne(record);
+    console.log("Order inserted into 'record':", record);
 }
 
 
 // Function to retrieve record history
 async function getRecordHistory(client) {
-    const db = client.db(dbName);
-    const record = await db.collection(collectionName).find({}).toArray();
+    const record = await db.collection("record").find({}).toArray();
     return record;
 }
 
@@ -591,23 +593,29 @@ app.post("/record", async (req, res) => {
     try {
         const orderData = req.body;
 
-        if (!orderData.Customer || !orderData.Tel || !orderData.Menu || !orderData.totalPrice) {
+        // Check for required fields, including promotion
+        if (!orderData.Customer || !orderData.Tel || !orderData.Menu || !orderData.totalPrice || !orderData.promotion) {
             return res.status(400).json({ error: "Incomplete order information" });
         }
 
+        // Attempt to insert the record
         await insertRecord(client, orderData);
         res.status(201).json({ message: "Record has been successfully recorded" });
     } catch (error) {
-        console.error("Error inserting record:", error);
+        // Log the error details for debugging
+        console.error("Error inserting record:", JSON.stringify(error, null, 2));
+
+        // Provide a response with a more general error message
         res.status(500).json({ error: "An error occurred while recording the order" });
     }
 });
+
 
 // GET route to retrieve record history
 app.get("/record", async (req, res) => {
     try {
         const record = await getRecordHistory(client);
-        res.status(200).json(records);
+        res.status(200).json(record);
     } catch (error) {
         console.error("Error retrieving record history:", error);
         res.status(500).json({ error: "An error occurred while retrieving record history" });

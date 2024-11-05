@@ -12,7 +12,6 @@ async function initializeRecordCollectionIfNotExist(client) {
 
     await db.collection(collectionName).insertMany([
       {
-        date: new Timestamp(),
         Customer: "MaMa Mia",
         Tel:"0991564848",
         Menu: [
@@ -20,9 +19,9 @@ async function initializeRecordCollectionIfNotExist(client) {
         ["Espresso","HOT",50,"Add On: None"]],
         promotion: "None",
         totalPrice: 140
+        createdAt: new Date()
       },
       {
-              date: new Date(), // Current date
               Customer: "Thanat Phi",
               Tel: "0625916127",
               Menu: [
@@ -30,9 +29,9 @@ async function initializeRecordCollectionIfNotExist(client) {
               ],
               promotion: "สะสมแต้มผ่าน LINE OA 10 แก้ว ฟรี 1 แก้ว",
               totalPrice: 60
+              createdAt: new Date()
           },
           {
-              date: new Date(), // Current date
               Customer: "PhiPhi nat",
               Tel: "0123456789",
               Menu: [
@@ -42,9 +41,9 @@ async function initializeRecordCollectionIfNotExist(client) {
               ],
               promotion: "None", // No promotion used
               totalPrice: 175 // Total price without any discounts
+              createdAt: new Date()
           },
           {
-              date: new Date(), // Current date
               Customer: "Thanatos Thanat",
               Tel: "1234567890",
               Menu: [
@@ -53,6 +52,7 @@ async function initializeRecordCollectionIfNotExist(client) {
               ],
               promotion: "ส่วนลด 5 บาทสำหรับนักศึกษาเก่ามหิดล",
               totalPrice: 125 // Adjust for any discounts as needed
+              createdAt: new Date()
           }
 
     ]);

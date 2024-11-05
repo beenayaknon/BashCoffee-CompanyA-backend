@@ -1,6 +1,7 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
+const { Timestamp } = require("mongodb");
 
 const app = express();
 const port = 3030;
@@ -21,6 +22,7 @@ const initializeBeverageCollectionIfNotExist = require("./Database beverage/beve
 const initializeMemberCollectionIfNotExist = require("./Database member/member");
 const initializePromotionCollectionIfNotExist = require("./Database promotion/promotion.js");
 const initializbakeryCollectionIfNotExist = require("./Database bakery/bakery.js");
+const initializeRecordCollectionIfNotExist = require("./recode/record.js");
 // Function to initialize all collections
 // Function to initialize all collections with fresh data
 async function initializeCollections() {
@@ -35,7 +37,7 @@ async function initializeCollections() {
         console.log(`Database ${dbName} dropped`);
     
     // Drop collections if they exist before initializing
-    const collections = ['beverage', 'member', 'Promotion', 'bakery'];
+    const collections = ['beverage', 'member', 'Promotion', 'bakery', 'record'];
     for (const collection of collections) {
       const collectionExists = await db.collection(collection).countDocuments({});
       if (collectionExists) {
@@ -49,6 +51,7 @@ async function initializeCollections() {
     await initializeMemberCollectionIfNotExist(client);
     await initializePromotionCollectionIfNotExist(client);
     await initializbakeryCollectionIfNotExist(client);
+    await initializeRecordCollectionIfNotExist(client);
 
     console.log("Collections initialized successfully");
   } catch (err) {
@@ -515,119 +518,114 @@ app.get('/bakery', async (req, res) => {
   });
 
 //-----------------------------//
-async function insertOrder(client, orderData) {
+// Modified function to insert records into the 'record' collection
+async function insertRecord(client, orderData) {
     const db = client.db(dbName);
 
-    // check collection 'orders'
-    const collections = await db.listCollections({ name: "orders" }).toArray();
+    // Check if 'record' collection exists
+    const collections = await db.listCollections({ name: collectionName }).toArray();
     if (collections.length === 0) {
-        // if no collection, create new
-        await db.createCollection("orders");
-        console.log("Collection 'orders' created");
+        await db.createCollection(collectionName);
+        console.log(`Collection '${collectionName}' created`);
     }
 
-const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
-    const [name, type, price, addOn] = item;
+    const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
+        const [name, type, price, addOn] = item;
 
-    const beverageItem = await db.collection("beverage").findOne({ Drink_Name: name });
-    const bakeryItem = await db.collection("bakery").findOne({ Bakery_Name: name });
+        const beverageItem = await db.collection("beverage").findOne({ Drink_Name: name });
+        const bakeryItem = await db.collection("bakery").findOne({ Bakery_Name: name });
 
-    let menuItem;
-    if (beverageItem) {
-        // beverage
-        menuItem = {
-            name: beverageItem.Drink_Name,
-            type: type || beverageItem.DrinkType,
-            price: beverageItem.Price[type === "COLD" ? "coldPrice" : "hotPrice"],
-            addOn: addOn || "None",
-            category: "beverage",
-            details: {
-                Drink_ID: beverageItem.Drink_ID,
-                Description: beverageItem.Description,
-                Price: beverageItem.Price,
-                Tag: beverageItem.Tag,
-                isRecommended: beverageItem.isRecommended,
-                image_src: beverageItem.img_src,
-                AddOns: beverageItem.AddOns
-            }
-        };
-    } else if (bakeryItem) {
-        // bakery
-        menuItem = {
-            name: bakeryItem.Bakery_Name,
-            type: "Bakery",
-            price: bakeryItem.Price.singlePrice,
-            addOn: addOn || "None",
-            category: "bakery",
-            details: {
-                Bakery_ID: bakeryItem.Bakery_ID,
-                Description: bakeryItem.Description,
-                Price: bakeryItem.Price,
-                Tag: bakeryItem.Tag,
-                isRecommended: bakeryItem.isRecommended,
-                image_src: bakeryItem.image_src
-            }
-        };
-    } else {
-        // if not found
-        throw new Error(`Item not found: ${name}`);
-    }
+        let menuItem;
+        if (beverageItem) {
+            menuItem = {
+                name: beverageItem.Drink_Name,
+                type: type || beverageItem.DrinkType,
+                price: beverageItem.Price[type === "COLD" ? "coldPrice" : "hotPrice"],
+                addOn: addOn || "None",
+                category: "beverage",
+                details: {
+                    Drink_ID: beverageItem.Drink_ID,
+                    Description: beverageItem.Description,
+                    Price: beverageItem.Price,
+                    Tag: beverageItem.Tag,
+                    isRecommended: beverageItem.isRecommended,
+                    image_src: beverageItem.img_src,
+                    AddOns: beverageItem.AddOns
+                }
+            };
+        } else if (bakeryItem) {
+            menuItem = {
+                name: bakeryItem.Bakery_Name,
+                type: "Bakery",
+                price: bakeryItem.Price.singlePrice,
+                addOn: addOn || "None",
+                category: "bakery",
+                details: {
+                    Bakery_ID: bakeryItem.Bakery_ID,
+                    Description: bakeryItem.Description,
+                    Price: bakeryItem.Price,
+                    Tag: bakeryItem.Tag,
+                    isRecommended: bakeryItem.isRecommended,
+                    image_src: bakeryItem.image_src
+                }
+            };
+        } else {
+            throw new Error(`Item not found: ${name}`);
+        }
 
-    return menuItem;
-}));
+        return menuItem;
+    }));
 
-// create order object
-const order = {
-    date: orderData.date,
-    Customer: orderData.Customer,
-    Tel: orderData.Tel,
-    Menu: menuItems,
-    promotion: orderData.promotion,
-    totalPrice: orderData.totalPrice
-};
+    const record = {
+        date: orderData.date,
+        Customer: orderData.Customer,
+        Tel: orderData.Tel,
+        Menu: menuItems,
+        promotion: orderData.promotion,
+        totalPrice: orderData.totalPrice
+    };
 
-// save in collection orders
-await db.collection("orders").insertOne(order);
-console.log("Order inserted:", order);
-
-// Function to retrieve order history
-async function getOrderHistory(client) {
-    const db = client.db(dbName);
-    const orders = await db.collection("orders").find({}).toArray();
-    return orders;
+    await db.collection(collectionName).insertOne(record);
+    console.log("Record inserted:", record);
 }
 
-// POST route to create a new order
-app.post("/orders", async (req, res) => {
-    try {
-        const orderData = req.body; // Receive order data from frontend
+// Function to retrieve record history
+async function getRecordHistory(client) {
+    const db = client.db(dbName);
+    const records = await db.collection(collectionName).find({}).toArray();
+    return records;
+}
 
-        // Check if all necessary data is provided
+// POST route to create a new record
+app.post("/records", async (req, res) => {
+    try {
+        const orderData = req.body;
+
         if (!orderData.Customer || !orderData.Tel || !orderData.Menu || !orderData.totalPrice) {
             return res.status(400).json({ error: "Incomplete order information" });
         }
 
-        // Call insertOrder function to save the order
-        await insertOrder(orderData);
-
-        // Send response when the order is successfully saved
-        res.status(201).json({ message: "Order has been successfully recorded" });
+        await insertRecord(client, orderData);
+        res.status(201).json({ message: "Record has been successfully recorded" });
     } catch (error) {
-        console.error("Error inserting order:", error);
+        console.error("Error inserting record:", error);
         res.status(500).json({ error: "An error occurred while recording the order" });
     }
 });
 
-// GET route to retrieve order history  for view history 
-app.get("/orders/history", async (req, res) => {
+// GET route to retrieve record history
+app.get("/records/history", async (req, res) => {
     try {
-        const orders = await getOrderHistory(client);
-        res.status(200).json(orders);
+        const records = await getRecordHistory(client);
+        res.status(200).json(records);
     } catch (error) {
-        console.error("Error retrieving order history:", error);
-        res.status(500).json({ error: "An error occurred while retrieving order history" });
+        console.error("Error retrieving record history:", error);
+        res.status(500).json({ error: "An error occurred while retrieving record history" });
     }
 });
+
+module.exports = { initializeRecordCollectionIfNotExist, insertRecord, getRecordHistory };
+
 
 // Start the server
 app.listen(port, () => {

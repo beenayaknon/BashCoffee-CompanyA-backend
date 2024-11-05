@@ -21,7 +21,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee"],
         isRecommended: true,
-        img_src: "/images/drinks/americano.png",
+        img_src: "",
         AddOns: [
           {
             name: "Oat Milk",
@@ -44,7 +44,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee"],
         isRecommended: false,
-        img_src: "/images/drinks/americano.png",
+        img_src: "americano.png",
         AddOns: [
           {
             name: "Oat Milk",
@@ -67,7 +67,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee"],
         isRecommended: false,
-        img_src: "/images/drinks/americano.png",
+        img_src: "espresso.png",
         AddOns: [
           {
             name: "Oat Milk",

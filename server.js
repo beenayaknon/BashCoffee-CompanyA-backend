@@ -34,9 +34,9 @@ async function initializeCollections() {
 
     db = client.db(dbName); // Assign the database reference
 
-        // Drop the database if it exists
-        await db.dropDatabase();
-        console.log(`Database ${dbName} dropped`);
+        // // Drop the database if it exists
+        // await db.dropDatabase();
+        // console.log(`Database ${dbName} dropped`);
     
     // Drop collections if they exist before initializing
     const collections = ['beverage', 'member', 'Promotion', 'bakery', 'record'];

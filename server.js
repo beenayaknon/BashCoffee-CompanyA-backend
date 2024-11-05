@@ -522,13 +522,15 @@ app.get('/bakery', async (req, res) => {
 async function insertRecord(client, orderData) {
     const db = client.db(dbName);
 
-    // Check if 'record' collection exists
+    // Check if the collection 'record' exists
     const collections = await db.listCollections({ name: collectionName }).toArray();
     if (collections.length === 0) {
+        // If it doesn't exist, create it
         await db.createCollection(collectionName);
-        console.log(`Collection '${collectionName}' created`);
+        console.log("Collection 'record' created");
     }
 
+    // Map over the Menu items in orderData to construct the menuItems array
     const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
         const [name, type, price, addOn] = item;
 
@@ -537,57 +539,45 @@ async function insertRecord(client, orderData) {
 
         let menuItem;
         if (beverageItem) {
+            // Create a beverage menu item
             menuItem = {
                 name: beverageItem.Drink_Name,
                 type: type || beverageItem.DrinkType,
                 price: beverageItem.Price[type === "COLD" ? "coldPrice" : "hotPrice"],
                 addOn: addOn || "None",
                 category: "beverage",
-                details: {
-                    Drink_ID: beverageItem.Drink_ID,
-                    Description: beverageItem.Description,
-                    Price: beverageItem.Price,
-                    Tag: beverageItem.Tag,
-                    isRecommended: beverageItem.isRecommended,
-                    image_src: beverageItem.img_src,
-                    AddOns: beverageItem.AddOns
-                }
             };
         } else if (bakeryItem) {
+            // Create a bakery menu item
             menuItem = {
                 name: bakeryItem.Bakery_Name,
                 type: "Bakery",
                 price: bakeryItem.Price.singlePrice,
-                addOn: addOn || "None",
                 category: "bakery",
-                details: {
-                    Bakery_ID: bakeryItem.Bakery_ID,
-                    Description: bakeryItem.Description,
-                    Price: bakeryItem.Price,
-                    Tag: bakeryItem.Tag,
-                    isRecommended: bakeryItem.isRecommended,
-                    image_src: bakeryItem.image_src
-                }
             };
         } else {
+            // If the item is not found in either collection
             throw new Error(`Item not found: ${name}`);
         }
 
         return menuItem;
     }));
 
-    const record = {
+    // Create the order object to insert
+    const order = {
         date: orderData.date,
         Customer: orderData.Customer,
         Tel: orderData.Tel,
         Menu: menuItems,
         promotion: orderData.promotion,
-        totalPrice: orderData.totalPrice
+        totalPrice: orderData.totalPrice,
     };
 
-    await db.collection(collectionName).insertOne(record);
-    console.log("Record inserted:", record);
+    // Insert the order into the 'record' collection
+    await db.collection(collectionName).insertOne(order);
+    console.log("Order inserted into 'record':", order);
 }
+
 
 // Function to retrieve record history
 async function getRecordHistory(client) {

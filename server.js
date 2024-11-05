@@ -22,7 +22,7 @@ const initializeBeverageCollectionIfNotExist = require("./Database beverage/beve
 const initializeMemberCollectionIfNotExist = require("./Database member/member");
 const initializePromotionCollectionIfNotExist = require("./Database promotion/promotion.js");
 const initializbakeryCollectionIfNotExist = require("./Database bakery/bakery.js");
-const initializeRecordCollectionIfNotExist = require("./recode/record.js");
+const initializeRecordCollectionIfNotExist = require("./record/record.js");
 // Function to initialize all collections
 // Function to initialize all collections with fresh data
 async function initializeCollections() {
@@ -604,7 +604,7 @@ app.post("/records", async (req, res) => {
 });
 
 // GET route to retrieve record history
-app.get("/records/history", async (req, res) => {
+app.get("/record", async (req, res) => {
     try {
         const records = await getRecordHistory(client);
         res.status(200).json(records);

@@ -1,7 +1,6 @@
-const { Timestamp } = require("mongodb");
-
 const dbName = "BashCoffeeDB";
 const collectionName = "record";
+const { Timestamp } = require("mongodb");
 
 // Function to create the Beverage collection if it doesn't exist
 async function initializeRecordCollectionIfNotExist(client) {

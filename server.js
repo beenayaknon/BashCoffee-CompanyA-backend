@@ -577,7 +577,7 @@ async function insertRecord(client, orderData) {
         Menu: menuItems,
         promotion: orderData.promotion,
         totalPrice: orderData.totalPrice,
-        createdAt: new Date() // Adding a timestamp
+        date: new Date() // Adding a timestamp
     };
 
     // Insert the record into the 'record' collection

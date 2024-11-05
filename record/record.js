@@ -18,8 +18,8 @@ async function initializeRecordCollectionIfNotExist(client) {
         ["Dirty","HOT",90,"Add On: None"],
         ["Espresso","HOT",50,"Add On: None"]],
         promotion: "None",
-        totalPrice: 140
-        createdAt: new Date()
+        totalPrice: 140,
+        date: new Date()
       },
       {
               Customer: "Thanat Phi",
@@ -28,8 +28,8 @@ async function initializeRecordCollectionIfNotExist(client) {
                   ["Latte", "COLD", 60, "Add On: None"],  // Only beverages
               ],
               promotion: "สะสมแต้มผ่าน LINE OA 10 แก้ว ฟรี 1 แก้ว",
-              totalPrice: 60
-              createdAt: new Date()
+              totalPrice: 60,
+              date: new Date()
           },
           {
               Customer: "PhiPhi nat",
@@ -40,8 +40,8 @@ async function initializeRecordCollectionIfNotExist(client) {
                   ["Chocolate Croissant", 50] // One pastry
               ],
               promotion: "None", // No promotion used
-              totalPrice: 175 // Total price without any discounts
-              createdAt: new Date()
+              totalPrice: 175, // Total price without any discounts
+              date: new Date()
           },
           {
               Customer: "Thanatos Thanat",
@@ -51,8 +51,8 @@ async function initializeRecordCollectionIfNotExist(client) {
                   ["Cappuccino", "HOT", 60, "Add On: None"]
               ],
               promotion: "ส่วนลด 5 บาทสำหรับนักศึกษาเก่ามหิดล",
-              totalPrice: 125 // Adjust for any discounts as needed
-              createdAt: new Date()
+              totalPrice: 125, // Adjust for any discounts as needed
+              date: new Date()
           }
 
     ]);

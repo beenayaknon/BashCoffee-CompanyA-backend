@@ -339,7 +339,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           isRecommended: false,
           img_src: "lemon_thai_tea.png",
-          Tag: ["Non-Coffee", "Tea"]
+          Tag: ["Refreshment", "Tea"]
         },
         {
           Drink_ID: 126,
@@ -347,7 +347,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Description: "A sweet and tangy lemonade with a touch of honey for natural sweetness.",
           Price: { coldPrice: 55 },
           DrinkType: "Cold",
-          Tag: ["Non-Coffee", "Lemonade"],
+          Tag: ["Refreshment", "Lemonade"],
           isRecommended: false,
           img_src: "honey lemonade.png"
         },
@@ -359,7 +359,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           img_src: "Red Lemon Soda.png",
           isRecommended: false,
-          Tag: ["Non-Coffee", "Soda"]
+          Tag: ["Soda","Refreshment"]
         },
         {
           Drink_ID: 128,
@@ -367,7 +367,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Description: "A fizzy and refreshing drink with honey and yuzu citrus flavors.",
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
-          Tag: ["Non-Coffee", "Soda", "Yuzu"],
+          Tag: ["Soda", "Yuzu","Refreshment"],
           isRecommended: true,
           img_src: "honey yuzu soda.png"
         },
@@ -380,7 +380,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           isRecommended: true,
           img_src: "breezy rose.png",
-          Tag: ["Non-Coffee", "Rose"]
+          Tag: ["Rose","Refreshment"]
         },
         {
           Drink_ID: 130,
@@ -390,7 +390,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           isRecommended: false,
           img_src: "Plum Lemon Soda.png",
-          Tag: ["Non-Coffee", "Soda", "Plum"]
+          Tag: ["Soda", "Plum","Refreshment"]
         },
         {
           Drink_ID: 131,
@@ -400,7 +400,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           isRecommended: true,
           img_src: "Craft Cola.png",
-          Tag: ["Non-Coffee", "Cola"]
+          Tag: ["Cola","Refreshment"]
         },
         {
           Drink_ID: 132,
@@ -408,9 +408,9 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Description: "A bright and fruity tea blend perfect for sunny days.",
           Price: { coldPrice: 70 },
           DrinkType: "Cold",
-          Tag: ["Non-Coffee", "Tea", "Fruit"],
+          Tag: ["Tea", "Fruit","Refreshment"],
           isRecommended: true,
-          img_src: "fruit_sunshine_tea.png"
+          img_src: "fruit sunshine tea.png"
         },
         {
           Drink_ID: 133,

@@ -157,7 +157,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Cold",
         Tag: ["Coffee", "Coconut", "Recommend"],
         isRecommended: true,
-        img_src: "coconut flower-macchiato.png",
+        img_src: "coconut flower macchiato.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }

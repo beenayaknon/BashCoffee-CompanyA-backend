@@ -30,7 +30,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["croissant", "chocolate", "bakery", "sweet"],
           isRecommended: true,
-          image_src: "/images/bakery/chocolate.png"
+          image_src: "chocolate.png"
         },
         {
           Bakery_ID: 203,
@@ -40,7 +40,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["croissant", "nutella", "bakery", "chocolate", "sweet"],
           isRecommended: true,
-          image_src: "/images/bakery/nutella.png"
+          image_src: "nutella.png"
         },
         {
           Bakery_ID: 204,
@@ -50,7 +50,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["danish", "cream cheese", "bakery", "cheese"],
           isRecommended: true,
-          image_src: "/images/bakery/creamcheesedanish.png"
+          image_src: "creamcheesedanish.png"
         },
         {
           Bakery_ID: 205,
@@ -60,7 +60,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["danish", "custard", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "/images/bakery/danishcustard.png"
+          image_src: "danishcustard.png"
         },
         {
           Bakery_ID: 206,
@@ -70,7 +70,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["croissant", "ham", "cheese", "bakery"],
           isRecommended: false,
-          image_src: "/images/bakery/hamcheese.png"
+          image_src: "hamcheese.png"
         },
         {
           Bakery_ID: 207,
@@ -80,7 +80,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["croffle", "waffle", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "/images/bakery/croffle.png"
+          image_src: "croffle.png"
         },
         {
           Bakery_ID: 208,
@@ -90,7 +90,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["madeleine", "bakery", "cake"],
           isRecommended: false,
-          image_src: "/images/bakery/madeleine.png"
+          image_src: "madeleine.png"
         },
         {
           Bakery_ID: 209,
@@ -100,7 +100,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["cookies", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "/images/bakery/oricookie.png"
+          image_src: "oricookie.png"
         },
         {
           Bakery_ID: 210,
@@ -110,7 +110,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["cookies", "lava", "chocolate", "bakery", "sweet"],
           isRecommended: true,
-          image_src: "/images/bakery/lavachoccook.png"
+          image_src: "lavachoccook.png"
         },
         {
           Bakery_ID: 211,
@@ -120,7 +120,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["brownies", "bakery", "chocolate", "sweet"],
           isRecommended: true,
-          image_src: "/images/bakery/brownies.png"
+          image_src: "brownies.png"
         },
         {
           Bakery_ID: 212,
@@ -130,7 +130,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["donut", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "/images/bakery/donut.png"
+          image_src: "donut.png"
         },
         {
           Bakery_ID: 213,
@@ -140,7 +140,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["kanom khai", "thai dessert", "bakery", "sweet"],
           isRecommended: false,
-          image_src: "/images/bakery/kanomkhai.png"
+          image_src: "kanomkhai.png"
         }
       ]);
 

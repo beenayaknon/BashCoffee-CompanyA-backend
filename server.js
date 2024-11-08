@@ -42,10 +42,17 @@ async function initializeCollections() {
     // Drop collections if they exist before initializing
     const collections = ['beverage', 'member', 'Promotion', 'bakery', 'record'];
     for (const collection of collections) {
-      const collectionExists = await db.collection(collection).countDocuments({});
-      if (collectionExists) {
-        await db.collection(collection).drop();
-        console.log(`Dropped existing collection: ${collection}`);
+      try {
+        const collectionExists = await db.listCollections({ name: collection }).hasNext();
+        
+        if (collectionExists) {
+          await db.collection(collection).drop();
+          console.log(`Dropped existing collection: ${collection}`);
+        } else {
+          console.log(`Collection does not exist: ${collection}`);
+        }
+      } catch (error) {
+        console.error(`Error dropping collection "${collection}":`, error);
       }
     }
 

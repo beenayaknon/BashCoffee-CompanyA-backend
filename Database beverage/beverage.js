@@ -197,7 +197,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Description: "A clear and refreshing ceremonial grade matcha drink.",
         Price: { hotPrice: null, coldPrice: 65 },
         DrinkType: "Cold",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk"],
+        Tag: ["Matcha", "Milk"],
         isRecommended: false,
         img_src: "",
         AddOns: [
@@ -211,7 +211,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Description: "A creamy blend of matcha and steamed milk.",
         Price: { hotPrice: 65, coldPrice: null },
         DrinkType: "Hot",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk"],
+        Tag: ["Matcha", "Milk"],
         isRecommended: false,
         img_src: "/image/matcha latte.png",
         AddOns: [
@@ -225,7 +225,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Description: "A refreshing matcha with a burst of orange flavor.",
         Price: { hotPrice: null, coldPrice: 70 },
         DrinkType: "Cold",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu"],
+        Tag: ["Matcha", "Milk", "Recommend Menu"],
         isRecommended: true,
         img_src: "/image/orange matcha.png",
         AddOns: [
@@ -238,14 +238,14 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Price: 90,
         DrinkType: "COLD",
         img_src: "/image/coconut flower matcha.png",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu"]
+        Tag: ["Matcha", "Milk", "Recommend Menu"]
       },
       {
         Drink_Name: "Premium Matcha Latte",
         Price: 85,
         DrinkType: "HOT",
         img_src: "",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
+        Tag: ["Matcha", "Milk", "Recommend Menu", "Nutty", "Umami"]
       },
       {
         Drink_ID: 115,
@@ -253,7 +253,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Price: { coldPrice: 90 },
         DrinkType: "Cold",
         img_src: "",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
+        Tag: ["Matcha", "Milk", "Recommend Menu", "Nutty", "Umami"]
       },
         {
           Drink_ID: 115,
@@ -261,7 +261,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Price: { coldPrice: 90 },
           DrinkType: "Cold",
           img_src: "",
-          Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
+          Tag: ["Matcha", "Milk", "Recommend Menu", "Nutty", "Umami"]
         },
         {
           Drink_ID: 116,
@@ -269,7 +269,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Price: { hotPrice: 110 },
           DrinkType: "Hot",
           img_src: "/image/twist matcha latte.png",
-          Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
+          Tag: ["Matcha", "Milk", "Recommend Menu", "Nutty", "Umami"]
         },
         {
           Drink_ID: 117,
@@ -277,7 +277,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Price: { coldPrice: 120 },
           DrinkType: "Cold",
           img_src: "/image/twist matcha latte.png",
-          Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
+          Tag: ["Matcha", "Milk", "Recommend Menu", "Nutty", "Umami"]
         },
         {
           Drink_ID: 118,

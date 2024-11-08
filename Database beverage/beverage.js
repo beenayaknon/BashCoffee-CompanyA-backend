@@ -33,7 +33,6 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: false,
         img_src: "americano.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
@@ -47,7 +46,6 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: false,
         img_src: "espresso.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
@@ -117,7 +115,6 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: true,
         img_src: "latte.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
@@ -131,7 +128,6 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: true,
         img_src: "orange coffee.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
@@ -145,7 +141,6 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: true,
         img_src: "orange coffee.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
@@ -159,7 +154,6 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: true,
         img_src: "coconut flower macchiato.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
@@ -173,8 +167,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: false,
         img_src: "matcha latte.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
-          { name: "Brown Sugar Jelly", price: 15 }
+          {}
         ]
       },
       {
@@ -201,8 +194,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: true,
         img_src: "orange matcha.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
-          { name: "Brown Sugar Jelly", price: 15 }
+          {}
         ]
       },
       {
@@ -243,6 +235,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: false,
         img_src: "caramel fresh milk.png",
         AddOns: [
+          { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
@@ -269,7 +262,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: false,
         img_src: "cocoa.png",
         AddOns: [
-          { name: "Lemon Slice", price: 10 }
+          {}
         ]
       },
       {
@@ -282,7 +275,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: false,
         img_src: "cocoa.png",
         AddOns: [
-          { name: "Whipped Cream", price: 10 }
+          {}
         ]
       },
       {
@@ -319,7 +312,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Cold",
         isRecommended: true,
         img_src: "thai milk tea.png",
-        Tag: ["Non-Coffee", "Milk", "Tea"]
+        Tag: ["Non-Coffee", "Milk", "Tea"],
+        AddOns: [
+          {}
+        ]
       },
         {
           Drink_ID: 124,
@@ -330,6 +326,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Tag: ["Non-Coffee", "Juice"],
           isRecommended: false,
           img_src: "orange juice.png"
+          ,
+        AddOns: [
+          {}
+        ]
         },
         {
           Drink_ID: 125,
@@ -340,6 +340,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           isRecommended: false,
           img_src: "thai milk tea.png",
           Tag: ["Refreshment", "Tea"]
+          ,
+        AddOns: [
+          {}
+        ]
         },
         {
           Drink_ID: 126,
@@ -350,6 +354,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Tag: ["Refreshment", "Lemonade"],
           isRecommended: false,
           img_src: "orange juice.png"
+          ,
+        AddOns: [
+          {}
+        ]
         },
         {
           Drink_ID: 127,
@@ -359,7 +367,11 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           img_src: "orange juice.png",
           isRecommended: false,
-          Tag: ["Soda","Refreshment"]
+          Tag: ["Soda","Refreshment"],
+          AddOns: [
+            {}
+          ]
+          
         },
         {
           Drink_ID: 128,
@@ -369,7 +381,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           Tag: ["Soda", "Yuzu","Refreshment"],
           isRecommended: true,
-          img_src: "orange juice.png"
+          img_src: "orange juice.png",
+          AddOns: [
+            {}
+          ]
         },
         {
           Drink_ID: 129,
@@ -380,7 +395,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           isRecommended: true,
           img_src: "orange juice.png",
-          Tag: ["Rose","Refreshment"]
+          Tag: ["Rose","Refreshment"],
+          AddOns: [
+            {}
+          ]
         },
         {
           Drink_ID: 130,
@@ -390,7 +408,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           isRecommended: false,
           img_src: "orange juice.png",
-          Tag: ["Soda", "Plum","Refreshment"]
+          Tag: ["Soda", "Plum","Refreshment"],
+          AddOns: [
+            {}
+          ]
         },
         {
           Drink_ID: 131,
@@ -400,7 +421,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           isRecommended: true,
           img_src: "coconut flower macchiato.png",
-          Tag: ["Cola","Refreshment"]
+          Tag: ["Cola","Refreshment"],
+          AddOns: [
+            {}
+          ]
         },
         {
           Drink_ID: 132,
@@ -410,7 +434,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           Tag: ["Tea", "Fruit","Refreshment"],
           isRecommended: true,
-          img_src: "fruit sunshine tea.png"
+          img_src: "fruit sunshine tea.png",
+          AddOns: [
+            {}
+          ]
         },
         {
           Drink_ID: 133,
@@ -419,7 +446,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Price: { coldPrice: 10 },
           DrinkType: "",
           img_src: "water.png",
-          Tag: ["Water","Refreshment"]
+          Tag: ["Water","Refreshment"],
+          AddOns: [
+            {}
+          ]
         },
         {
           Drink_ID: 134,
@@ -429,7 +459,10 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           Tag: ["Soft Drink","Refreshment"],
           isRecommended: false,
-          img_src: "coke.png"
+          img_src: "coke.png",
+          AddOns: [
+            {}
+          ]
         }
       ]
       

@@ -129,7 +129,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Cold",
         Tag: ["Coffee", "Yuzu", "Recommend"],
         isRecommended: true,
-        img_src: "latte.png",
+        img_src: "orange coffee.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -171,7 +171,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Cold",
         Tag: ["Matcha", "Milk"],
         isRecommended: false,
-        img_src: "latte.png",
+        img_src: "matcha latte.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -183,7 +183,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Description: "A creamy blend of matcha and steamed milk.",
         Price: { hotPrice: 65, coldPrice: null },
         DrinkType: "Hot",
-        Tag: ["Match (Ceremonial Grade)", "Milk"],
+        Tag: ["Matcha", "Milk"],
         isRecommended: false,
         img_src: "matcha latte.png",
         AddOns: [
@@ -211,7 +211,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Description: "A premium matcha latte with a nutty and umami taste.",
         Price: { coldPrice: 90 },
         DrinkType: "Cold",
-        img_src: "latte.png",
+        img_src: "matcha latte.png",
         isRecommended: true,
         Tag: ["Matcha", "Nutty", "Umami"],
         AddOns: [
@@ -227,7 +227,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Matcha", "Milk", "Recommend Menu", "Nutty", "Umami"],
         isRecommended: true,
-        img_src: "latte.png",
+        img_src: "matcha latte.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -254,7 +254,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Non-Coffee", "Milk", "Pinky"],
         isRecommended: false,
-        img_src: "latte.png",
+        img_src: "thai milk tea.png",
         AddOns: [
           { name: "Brown Sugar Jelly", price: 15 }
         ]
@@ -267,7 +267,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Non-Coffee", "Tea"],
         isRecommended: false,
-        img_src: "latte.png",
+        img_src: "cocoa.png",
         AddOns: [
           { name: "Lemon Slice", price: 10 }
         ]
@@ -304,7 +304,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Description: "A blend of Assam tea and milk, offering bold flavors with a smooth finish.",
         Price: { hotPrice: 60, coldPrice: 60 },
         DrinkType: "Hot/Cold",
-        img_src: "latte.png",
+        img_src: "thai milk tea.png",
         isRecommended: true,
         Tag: ["Non-Coffee", "Milk", "Tea"],
         AddOns: [
@@ -318,7 +318,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Price: { coldPrice: 85 },
         DrinkType: "Cold",
         isRecommended: true,
-        img_src: "latte.png",
+        img_src: "thai milk tea.png",
         Tag: ["Non-Coffee", "Milk", "Tea"]
       },
         {
@@ -338,7 +338,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Price: { coldPrice: 55 },
           DrinkType: "Cold",
           isRecommended: false,
-          img_src: "latte.png",
+          img_src: "thai milk tea.png",
           Tag: ["Refreshment", "Tea"]
         },
         {
@@ -349,7 +349,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           Tag: ["Refreshment", "Lemonade"],
           isRecommended: false,
-          img_src: "latte.png"
+          img_src: "orange juice.png"
         },
         {
           Drink_ID: 127,
@@ -357,7 +357,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Description: "A refreshing, fizzy delight combining zesty lemon with a hint of sweetness. The vibrant red color adds a twist to the classic lemon soda, making it the perfect thirst-quencher for hot days.",
           Price: { coldPrice: 55 },
           DrinkType: "Cold",
-          img_src: "latte.png",
+          img_src: "orange juice.png",
           isRecommended: false,
           Tag: ["Soda","Refreshment"]
         },
@@ -369,7 +369,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           Tag: ["Soda", "Yuzu","Refreshment"],
           isRecommended: true,
-          img_src: "latte.png"
+          img_src: "orange juice.png"
         },
         {
           Drink_ID: 129,
@@ -379,7 +379,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
           isRecommended: true,
-          img_src: "latte.png",
+          img_src: "orange juice.png",
           Tag: ["Rose","Refreshment"]
         },
         {
@@ -389,7 +389,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
           isRecommended: false,
-          img_src: "latte.png",
+          img_src: "orange juice.png",
           Tag: ["Soda", "Plum","Refreshment"]
         },
         {
@@ -399,7 +399,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
           isRecommended: true,
-          img_src: "latte.png",
+          img_src: "coconut flower macchiato.png",
           Tag: ["Cola","Refreshment"]
         },
         {

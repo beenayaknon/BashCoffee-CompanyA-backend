@@ -73,7 +73,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee", "Milk"],
         isRecommended: false,
-        img_src: "cappuccino.png",
+        img_src: "capuccino.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -87,7 +87,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee", "Milk"],
         isRecommended: false,
-        img_src: "Es-Yen Thai.png",
+        img_src: "Es-Yen Thai Style.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -329,7 +329,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           DrinkType: "Cold",
           Tag: ["Non-Coffee", "Juice"],
           isRecommended: false,
-          img_src: "orange_juice.png"
+          img_src: "orange juice.png"
         },
         {
           Drink_ID: 125,

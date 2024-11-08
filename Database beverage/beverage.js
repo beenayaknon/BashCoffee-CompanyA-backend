@@ -13,70 +13,42 @@ async function initializeBeverageCollectionIfNotExist(client) {
       {
         Drink_ID: 101,
         Drink_Name: "Dirty",
-        Description: "",
-        Price: {
-          hotPrice: 85,
-          coldPrice: 90
-        },
+        Description: "A rich espresso shot served over cold milk, resulting in a bold flavor contrast.",
+        Price: { hotPrice: 85, coldPrice: 90 },
         DrinkType: "Hot/Cold",
-        Tag: ["Coffee"],
+        Tag: ["Coffee","Recommend"],
         isRecommended: true,
-        img_src: "",
+        img_src: "dirty.png",
         AddOns: [
-          {
-            name: "Oat Milk",
-            price: 10
-          },
-          {
-            name: "Brown Sugar Jelly",
-            price: 15
-          }
+          { name: "Oat Milk", price: 10 },
+          { name: "Brown Sugar Jelly", price: 15 }
         ]
-      },
-      {
+      },      {
         Drink_ID: 102,
         Drink_Name: "Americano",
-        Description: "An Americano is made by diluting an espresso shot with hot water...",
-        Price: {
-          hotPrice: 55,
-          coldPrice: 60
-        },
+        Description: "An Americano is made by diluting an espresso shot with hot water for a smooth, robust coffee.",
+        Price: { hotPrice: 55, coldPrice: 60 },
         DrinkType: "Hot/Cold",
         Tag: ["Coffee"],
         isRecommended: false,
         img_src: "americano.png",
         AddOns: [
-          {
-            name: "Oat Milk",
-            price: 15
-          },
-          {
-            name: "Brown Sugar Jelly",
-            price: 15
-          }
+          { name: "Oat Milk", price: 15 },
+          { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
       {
         Drink_ID: 103,
         Drink_Name: "Espresso",
-        Description: "A rich, concentrated coffee brewed by forcing a small amount of nearly boiling water through finely-ground coffee beans. Known for its bold flavor and velvety crema, espresso serves as the base for many coffee drinks.",
-        Price: {
-          hotPrice: 55,
-          coldPrice: 60
-        },
+        Description: "A rich, concentrated coffee brewed by forcing a small amount of water through finely-ground beans.",
+        Price: { hotPrice: 55, coldPrice: 60 },
         DrinkType: "Hot/Cold",
         Tag: ["Coffee"],
         isRecommended: false,
         img_src: "espresso.png",
         AddOns: [
-          {
-            name: "Oat Milk",
-            price: 15
-          },
-          {
-            name: "Brown Sugar Jelly",
-            price: 15
-          }
+          { name: "Oat Milk", price: 15 },
+          { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
       {
@@ -87,7 +59,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee", "Milk"],
         isRecommended: false,
-        img_src: "/image/latte.png",
+        img_src: "latte.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -101,7 +73,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee", "Milk"],
         isRecommended: false,
-        img_src: "",
+        img_src: "cappuccino.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -110,12 +82,12 @@ async function initializeBeverageCollectionIfNotExist(client) {
       {
         Drink_ID: 106,
         Drink_Name: "Es-Yen (Thai Style)",
-        Description: "Thai iced coffee with a bold and refreshing taste.",
+        Description: "A bold and refreshing Thai iced coffee, perfect for warm days.",
         Price: { hotPrice: 65, coldPrice: 70 },
         DrinkType: "Hot/Cold",
         Tag: ["Coffee", "Milk"],
         isRecommended: false,
-        img_src: "/image/Es-Yen Thai Style.png",
+        img_src: "Es Yen Thai.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -129,7 +101,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee", "Milk"],
         isRecommended: false,
-        img_src: "/image/mocha.png",
+        img_src: "mocha.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -138,12 +110,12 @@ async function initializeBeverageCollectionIfNotExist(client) {
       {
         Drink_ID: 108,
         Drink_Name: "Honey Americano",
-        Description: "Americano with a touch of honey for a natural sweetness.",
+        Description: "Americano with a touch of honey for natural sweetness.",
         Price: { hotPrice: 65, coldPrice: 70 },
         DrinkType: "Hot/Cold",
-        Tag: ["Coffee", "Milk", "Honey", "Recommend"],
+        Tag: ["Coffee", "Honey", "Recommend"],
         isRecommended: true,
-        img_src: "",
+        img_src: "honey americano.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -152,12 +124,12 @@ async function initializeBeverageCollectionIfNotExist(client) {
       {
         Drink_ID: 109,
         Drink_Name: "Black Yuzu",
-        Description: "A refreshing black coffee infused with yuzu citrus.",
+        Description: "Refreshing black coffee with yuzu citrus infusion.",
         Price: { hotPrice: null, coldPrice: 70 },
         DrinkType: "Cold",
-        Tag: ["Coffee", "Milk", "Yuzu", "Recommend"],
+        Tag: ["Coffee", "Yuzu", "Recommend"],
         isRecommended: true,
-        img_src: "",
+        img_src: "black yuzu.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -166,12 +138,12 @@ async function initializeBeverageCollectionIfNotExist(client) {
       {
         Drink_ID: 110,
         Drink_Name: "Orange Coffee",
-        Description: "A zesty coffee with a bright orange flavor.",
+        Description: "A zesty coffee with bright orange flavor.",
         Price: { hotPrice: null, coldPrice: 70 },
         DrinkType: "Cold",
-        Tag: ["Coffee", "Milk", "Orange", "Recommend"],
+        Tag: ["Coffee", "Orange", "Recommend"],
         isRecommended: true,
-        img_src: "/image/orange coffee.png",
+        img_src: "orange coffee.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -183,9 +155,9 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Description: "A creamy macchiato with a hint of coconut flower sweetness.",
         Price: { hotPrice: null, coldPrice: 70 },
         DrinkType: "Cold",
-        Tag: ["Coffee", "Milk", "Coconut", "Recommend"],
+        Tag: ["Coffee", "Coconut", "Recommend"],
         isRecommended: true,
-        img_src: "/image/coconut flower macchiato.png",
+        img_src: "coconut flower-macchiato.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -194,12 +166,12 @@ async function initializeBeverageCollectionIfNotExist(client) {
       {
         Drink_ID: 112,
         Drink_Name: "Clear Matcha",
-        Description: "A clear and refreshing ceremonial grade matcha drink.",
+        Description: "A clear and refreshing ceremonial-grade matcha drink.",
         Price: { hotPrice: null, coldPrice: 65 },
         DrinkType: "Cold",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk"],
+        Tag: ["Matcha", "Milk"],
         isRecommended: false,
-        img_src: "",
+        img_src: "clear-matcha.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -211,9 +183,9 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Description: "A creamy blend of matcha and steamed milk.",
         Price: { hotPrice: 65, coldPrice: null },
         DrinkType: "Hot",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk"],
+        Tag: ["Match (Ceremonial Grade)", "Milk"],
         isRecommended: false,
-        img_src: "/image/matcha latte.png",
+        img_src: "matcha latte.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -222,246 +194,242 @@ async function initializeBeverageCollectionIfNotExist(client) {
       {
         Drink_ID: 114,
         Drink_Name: "Orange Matcha",
-        Description: "A refreshing matcha with a burst of orange flavor.",
+        Description: "Refreshing matcha with a burst of orange flavor.",
         Price: { hotPrice: null, coldPrice: 70 },
         DrinkType: "Cold",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu"],
+        Tag: ["Matcha", "Orange", "Recommend"],
         isRecommended: true,
-        img_src: "/image/orange matcha.png",
+        img_src: "orange matcha.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
         ]
       },
       {
-        Drink_Name: "Coconut Flower Matcha",
-        Price: 90,
-        DrinkType: "COLD",
-        img_src: "/image/coconut flower matcha.png",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu"]
-      },
-      {
-        Drink_Name: "Premium Matcha Latte",
-        Price: 85,
-        DrinkType: "HOT",
-        img_src: "",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
-      },
-      {
         Drink_ID: 115,
         Drink_Name: "Premium Matcha Latte",
+        Description: "A premium matcha latte with a nutty and umami taste.",
         Price: { coldPrice: 90 },
         DrinkType: "Cold",
-        img_src: "",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
+        img_src: "premium matcha latte.png",
+        isRecommended: true,
+        Tag: ["Matcha", "Nutty", "Umami"],
+        AddOns: [
+          { name: "Oat Milk", price: 15 },
+          { name: "Brown Sugar Jelly", price: 15 }
+        ]
+      },
+      {
+        Drink_ID: 116,
+        Drink_Name: "Twist Matcha Latte",
+        Description: "A unique twist on traditional matcha with a blend of creamy milk and subtle nutty flavors.",
+        Price: { hotPrice: 110, coldPrice: 120 },
+        DrinkType: "Hot/Cold",
+        Tag: ["Matcha", "Milk", "Recommend Menu", "Nutty", "Umami"],
+        isRecommended: true,
+        img_src: "twist matcha latte.png",
+        AddOns: [
+          { name: "Oat Milk", price: 15 },
+          { name: "Brown Sugar Jelly", price: 15 }
+        ]
+      },
+      {
+        Drink_ID: 117,
+        Drink_Name: "Caramel Fresh Milk",
+        Description: "Smooth, creamy milk with a rich caramel infusion, perfect for a warm treat.",
+        Price: { hotPrice: 45, coldPrice: 50 },
+        DrinkType: "Hot/Cold",
+        Tag: ["Non-Coffee", "Milk"],
+        isRecommended: false,
+        img_src: "caramel fresh milk.png",
+        AddOns: [
+          { name: "Brown Sugar Jelly", price: 15 }
+        ]
+      },
+      {
+        Drink_ID: 118,
+        Drink_Name: "Pinky Milk",
+        Description: "A playful, pastel pink milk drink with a sweet, creamy taste.",
+        Price: { hotPrice: 45, coldPrice: 50 },
+        DrinkType: "Hot/Cold",
+        Tag: ["Non-Coffee", "Milk", "Pinky"],
+        isRecommended: false,
+        img_src: "pinky_milk.png",
+        AddOns: [
+          { name: "Brown Sugar Jelly", price: 15 }
+        ]
+      },
+      {
+        Drink_ID: 119,
+        Drink_Name: "Black Tea",
+        Description: "A strong and aromatic black tea that offers a deep and classic tea flavor.",
+        Price: { hotPrice: 50, coldPrice: 55 },
+        DrinkType: "Hot/Cold",
+        Tag: ["Non-Coffee", "Tea"],
+        isRecommended: false,
+        img_src: "black_tea.png",
+        AddOns: [
+          { name: "Lemon Slice", price: 10 }
+        ]
+      },
+      {
+        Drink_ID: 120,
+        Drink_Name: "Cocoa",
+        Description: "A rich, comforting cocoa drink with smooth chocolatey notes.",
+        Price: { hotPrice: 55, coldPrice: 60 },
+        DrinkType: "Hot/Cold",
+        Tag: ["Non-Coffee", "Cocoa"],
+        isRecommended: false,
+        img_src: "cocoa.png",
+        AddOns: [
+          { name: "Whipped Cream", price: 10 }
+        ]
+      },
+      {
+        Drink_ID: 121,
+        Drink_Name: "Thai Milk Tea",
+        Description: "A classic Thai tea with a creamy finish, known for its sweet and aromatic flavor.",
+        Price: { hotPrice: 55, coldPrice: 60 },
+        DrinkType: "Hot/Cold",
+        Tag: ["Non-Coffee", "Tea", "Milk"],
+        isRecommended: false,
+        img_src: "thai_milk_tea.png",
+        AddOns: [
+          { name: "Brown Sugar Jelly", price: 15 }
+        ]
+      },
+      {
+        Drink_ID: 122,
+        Drink_Name: "Assam Black Milk Tea",
+        Description: "A blend of Assam tea and milk, offering bold flavors with a smooth finish.",
+        Price: { hotPrice: 60, coldPrice: 60 },
+        DrinkType: "Hot/Cold",
+        img_src: "assam black milk tea.png",
+        isRecommended: true,
+        Tag: ["Non-Coffee", "Milk", "Tea"],
+        AddOns: [
+          { name: "Brown Sugar Jelly", price: 15 }
+        ]
+      },
+      {
+        Drink_ID: 123,
+        Drink_Name: "Whipped Cheese Thai Tea",
+        Description: "Thai tea topped with a savory whipped cheese layer for a unique, creamy experience.",
+        Price: { coldPrice: 85 },
+        DrinkType: "Cold",
+        isRecommended: true,
+        img_src: "whipped cheese thai tea.png",
+        Tag: ["Non-Coffee", "Milk", "Tea"]
       },
         {
-          Drink_ID: 115,
-          Drink_Name: "Premium Matcha Latte",
-          Price: { coldPrice: 90 },
-          DrinkType: "Cold",
-          img_src: "",
-          Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
-        },
-        {
-          Drink_ID: 116,
-          Drink_Name: "Twist Matcha Latte",
-          Price: { hotPrice: 110 },
-          DrinkType: "Hot",
-          img_src: "/image/twist matcha latte.png",
-          Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
-        },
-        {
-          Drink_ID: 117,
-          Drink_Name: "Twist Matcha Latte",
-          Price: { coldPrice: 120 },
-          DrinkType: "Cold",
-          img_src: "/image/twist matcha latte.png",
-          Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
-        },
-        {
-          Drink_ID: 118,
-          Drink_Name: "Caramel Fresh Milk",
-          Price: { hotPrice: 45 },
-          DrinkType: "Hot",
-          img_src: "/image/caramel fresh milk.png",
-          Tag: ["Non-Coffee", "Milk"]
-        },
-        {
-          Drink_ID: 119,
-          Drink_Name: "Caramel Fresh Milk",
-          Price: { coldPrice: 50 },
-          DrinkType: "Cold",
-          img_src: "/image/caramel fresh milk.png",
-          Tag: ["Non-Coffee", "Milk"]
-        },
-        {
-          Drink_ID: 120,
-          Drink_Name: "Pinky Milk",
-          Price: { hotPrice: 45 },
-          DrinkType: "Hot",
-          img_src: "",
-          Tag: ["Non-Coffee", "Milk", "Pinky"]
-        },
-        {
-          Drink_ID: 121,
-          Drink_Name: "Pinky Milk",
-          Price: { coldPrice: 50 },
-          DrinkType: "Cold",
-          img_src: "",
-          Tag: ["Non-Coffee", "Milk", "Pinky"]
-        },
-        {
-          Drink_ID: 122,
-          Drink_Name: "Black Tea",
-          Price: { hotPrice: 50 },
-          DrinkType: "Hot",
-          img_src: "",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
-          Drink_ID: 123,
-          Drink_Name: "Black Tea",
-          Price: { coldPrice: 55 },
-          DrinkType: "Cold",
-          img_src: "",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
           Drink_ID: 124,
-          Drink_Name: "Cocoa",
-          Price: { hotPrice: 55 },
-          DrinkType: "Hot",
-          img_src: "/image/cocoa.png",
-          Tag: ["Non-Coffee", "Milk", "Cocoa"]
+          Drink_Name: "Orange Juice",
+          Description: "Freshly squeezed orange juice, vibrant and refreshing.",
+          Price: { coldPrice: 45 },
+          DrinkType: "Cold",
+          Tag: ["Non-Coffee", "Juice"],
+          isRecommended: false,
+          img_src: "orange_juice.png"
         },
         {
           Drink_ID: 125,
-          Drink_Name: "Cocoa",
-          Price: { coldPrice: 60 },
-          DrinkType: "Cold",
-          img_src: "/image/cocoa.png",
-          Tag: ["Non-Coffee", "Milk", "Cocoa"]
-        },
-        {
-          Drink_ID: 126,
-          Drink_Name: "Thai Milk Tea",
-          Price: { hotPrice: 55 },
-          DrinkType: "Hot",
-          img_src: "/image/thai milk tea.png",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
-          Drink_ID: 127,
-          Drink_Name: "Thai Milk Tea",
-          Price: { coldPrice: 60 },
-          DrinkType: "Cold",
-          img_src: "/image/thai milk tea.png",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
-          Drink_ID: 128,
-          Drink_Name: "Assam Black Milk Tea",
-          Price: { hotPrice: 60, coldPrice: 60 },
-          DrinkType: "Hot/Cold",
-          img_src: "",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
-          Drink_ID: 129,
-          Drink_Name: "Whipped Cheese Thai Tea",
-          Price: { coldPrice: 85 },
-          DrinkType: "Cold",
-          img_src: "",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
-          Drink_ID: 130,
-          Drink_Name: "Orange Juice",
-          Price: { coldPrice: 45 },
-          DrinkType: "Cold",
-          img_src: "/image/orange juice.png",
-          Tag: ["Non-Coffee", "Juice"]
-        },
-        {
-          Drink_ID: 131,
           Drink_Name: "Lemon Thai Tea",
+          Description: "Refreshing Thai tea with a twist of lemon for a citrusy zing.",
           Price: { coldPrice: 55 },
           DrinkType: "Cold",
-          img_src: "",
+          isRecommended: false,
+          img_src: "lemon_thai_tea.png",
           Tag: ["Non-Coffee", "Tea"]
         },
         {
-          Drink_ID: 132,
+          Drink_ID: 126,
           Drink_Name: "Honey Lemonade",
+          Description: "A sweet and tangy lemonade with a touch of honey for natural sweetness.",
           Price: { coldPrice: 55 },
           DrinkType: "Cold",
-          img_src: "",
-          Tag: ["Non-Coffee", "Lemonade"]
+          Tag: ["Non-Coffee", "Lemonade"],
+          isRecommended: false,
+          img_src: "honey lemonade.png"
         },
         {
-          Drink_ID: 133,
+          Drink_ID: 127,
           Drink_Name: "Red Lemon Soda",
+          Description: "A refreshing, fizzy delight combining zesty lemon with a hint of sweetness. The vibrant red color adds a twist to the classic lemon soda, making it the perfect thirst-quencher for hot days.",
           Price: { coldPrice: 55 },
           DrinkType: "Cold",
-          img_src: "",
+          img_src: "Red Lemon Soda.png",
+          isRecommended: false,
           Tag: ["Non-Coffee", "Soda"]
         },
         {
-          Drink_ID: 134,
+          Drink_ID: 128,
           Drink_Name: "Honey Yuzu Soda",
+          Description: "A fizzy and refreshing drink with honey and yuzu citrus flavors.",
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
-          img_src: "",
-          Tag: ["Non-Coffee", "Soda", "Yuzu"]
+          Tag: ["Non-Coffee", "Soda", "Yuzu"],
+          isRecommended: true,
+          img_src: "honey yuzu soda.png"
         },
         {
-          Drink_ID: 135,
+          Drink_ID: 129,
           Drink_Name: "Breezy Rose",
+          Description: "Light and refreshing rose-flavored drink with a subtle floral aroma.",
+          Price: { coldPrice: 55 },
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
-          img_src: "",
+          isRecommended: true,
+          img_src: "breezy rose.png",
           Tag: ["Non-Coffee", "Rose"]
         },
         {
-          Drink_ID: 136,
+          Drink_ID: 130,
           Drink_Name: "Plum Lemon Soda",
+          Description: "A sweet and tangy soda with a blend of plum and lemon flavors for a unique twist.",
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
-          img_src: "",
+          isRecommended: false,
+          img_src: "Plum Lemon Soda.png",
           Tag: ["Non-Coffee", "Soda", "Plum"]
         },
         {
-          Drink_ID: 137,
+          Drink_ID: 131,
           Drink_Name: "Craft Cola",
+          Description: "A hand-crafted cola drink with a perfect balance of sweetness and spice.",
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
-          img_src: "",
+          isRecommended: true,
+          img_src: "Craft Cola.png",
           Tag: ["Non-Coffee", "Cola"]
         },
         {
-          Drink_ID: 138,
+          Drink_ID: 132,
           Drink_Name: "Fruit Sunshine Tea",
+          Description: "A bright and fruity tea blend perfect for sunny days.",
           Price: { coldPrice: 70 },
           DrinkType: "Cold",
-          img_src: "",
-          Tag: ["Non-Coffee", "Tea", "Fruit"]
+          Tag: ["Non-Coffee", "Tea", "Fruit"],
+          isRecommended: true,
+          img_src: "fruit_sunshine_tea.png"
         },
         {
-          Drink_ID: 139,
+          Drink_ID: 133,
           Drink_Name: "Water",
+          Description: "Pure, refreshing water to keep you hydrated.",
           Price: { coldPrice: 10 },
           DrinkType: "",
-          img_src: "/image/water.png",
-          Tag: ["Water"]
+          img_src: "water.png",
+          Tag: ["Water","Refreshment"]
         },
         {
-          Drink_ID: 140,
+          Drink_ID: 134,
           Drink_Name: "Coke",
+          Description: "Classic carbonated soft drink, refreshing and fizzy.",
           Price: { coldPrice: 18 },
-          DrinkType: "",
-          img_src: "",
-          Tag: ["Soft Drink"]
+          DrinkType: "Cold",
+          Tag: ["Soft Drink","Refreshment"],
+          isRecommended: false,
+          img_src: "coke.png"
         }
       ]
       

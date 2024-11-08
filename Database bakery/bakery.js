@@ -90,7 +90,7 @@ async function initializbakeryCollectionIfNotExist(client) {
           Category: "Bakery",
           Tag: ["madeleine", "bakery", "cake"],
           isRecommended: false,
-          image_src: "madeleine.png"
+          image_src: "medeleine.png"
         },
         {
           Bakery_ID: 209,

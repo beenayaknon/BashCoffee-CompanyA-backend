@@ -73,10 +73,6 @@ async function initializeBeverageCollectionIfNotExist(client) {
             name: "Oat Milk",
             price: 15
           },
-          {
-            name: "Brown Sugar Jelly",
-            price: 15
-          }
         ]
       },
       {
@@ -225,10 +221,9 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Cold",
         Tag: ["Matcha", "Milk", "Recommend Menu"],
         isRecommended: true,
-        img_src: "/images/orange matcha.png",
+        img_src: "orange matcha.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
-          { name: "Brown Sugar Jelly", price: 15 }
+          
         ]
       },
       {

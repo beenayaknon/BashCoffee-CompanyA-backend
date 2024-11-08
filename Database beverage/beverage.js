@@ -87,7 +87,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee", "Milk"],
         isRecommended: false,
-        img_src: "/image/latte.png",
+        img_src: "latte.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -115,7 +115,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee", "Milk"],
         isRecommended: false,
-        img_src: "/image/Es-Yen Thai Style.png",
+        img_src: "Es-Yen Thai Style.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -129,7 +129,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot/Cold",
         Tag: ["Coffee", "Milk"],
         isRecommended: false,
-        img_src: "/image/mocha.png",
+        img_src: "mocha.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -170,7 +170,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Cold",
         Tag: ["Coffee", "Milk", "Orange", "Recommend"],
         isRecommended: true,
-        img_src: "/image/orange coffee.png",
+        img_src: "/images/orange coffee.png",
         AddOns: [
           { name: "Extra shot", price: 15 }
         ]
@@ -183,7 +183,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Cold",
         Tag: ["Coffee", "Milk", "Coconut", "Recommend"],
         isRecommended: true,
-        img_src: "/image/coconut flower macchiato.png",
+        img_src: "coconut flower macchiato.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -211,7 +211,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Hot",
         Tag: ["Matcha", "Milk"],
         isRecommended: false,
-        img_src: "/image/matcha latte.png",
+        img_src: "matcha latte.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -225,7 +225,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         DrinkType: "Cold",
         Tag: ["Matcha", "Milk", "Recommend Menu"],
         isRecommended: true,
-        img_src: "/image/orange matcha.png",
+        img_src: "/images/orange matcha.png",
         AddOns: [
           { name: "Oat Milk", price: 15 },
           { name: "Brown Sugar Jelly", price: 15 }
@@ -235,7 +235,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Drink_Name: "Coconut Flower Matcha",
         Price: 90,
         DrinkType: "COLD",
-        img_src: "/image/coconut flower matcha.png",
+        img_src: "coconut flower matcha.png",
         Tag: ["Matcha", "Milk", "Recommend Menu"]
       },
       {
@@ -266,7 +266,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Twist Matcha Latte",
           Price: { hotPrice: 110 },
           DrinkType: "Hot",
-          img_src: "/image/twist matcha latte.png",
+          img_src: "twist matcha latte.png",
           Tag: ["Matcha", "Milk", "Recommend Menu", "Nutty", "Umami"]
         },
         {
@@ -274,7 +274,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Twist Matcha Latte",
           Price: { coldPrice: 120 },
           DrinkType: "Cold",
-          img_src: "/image/twist matcha latte.png",
+          img_src: "twist matcha latte.png",
           Tag: ["Matcha", "Milk", "Recommend Menu", "Nutty", "Umami"]
         },
         {
@@ -282,7 +282,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Caramel Fresh Milk",
           Price: { hotPrice: 45 },
           DrinkType: "Hot",
-          img_src: "/image/caramel fresh milk.png",
+          img_src: "caramel fresh milk.png",
           Tag: ["Non-Coffee", "Milk"]
         },
         {
@@ -290,7 +290,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Caramel Fresh Milk",
           Price: { coldPrice: 50 },
           DrinkType: "Cold",
-          img_src: "/image/caramel fresh milk.png",
+          img_src: "caramel fresh milk.png",
           Tag: ["Non-Coffee", "Milk"]
         },
         {
@@ -330,7 +330,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Cocoa",
           Price: { hotPrice: 55 },
           DrinkType: "Hot",
-          img_src: "/image/cocoa.png",
+          img_src: "cocoa.png",
           Tag: ["Non-Coffee", "Milk", "Cocoa"]
         },
         {
@@ -338,7 +338,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Cocoa",
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
-          img_src: "/image/cocoa.png",
+          img_src: "cocoa.png",
           Tag: ["Non-Coffee", "Milk", "Cocoa"]
         },
         {
@@ -346,7 +346,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Thai Milk Tea",
           Price: { hotPrice: 55 },
           DrinkType: "Hot",
-          img_src: "/image/thai milk tea.png",
+          img_src: "thai milk tea.png",
           Tag: ["Non-Coffee", "Milk", "Tea"]
         },
         {
@@ -354,7 +354,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Thai Milk Tea",
           Price: { coldPrice: 60 },
           DrinkType: "Cold",
-          img_src: "/image/thai milk tea.png",
+          img_src: "thai milk tea.png",
           Tag: ["Non-Coffee", "Milk", "Tea"]
         },
         {
@@ -378,7 +378,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Orange Juice",
           Price: { coldPrice: 45 },
           DrinkType: "Cold",
-          img_src: "/image/orange juice.png",
+          img_src: "orange juice.png",
           Tag: ["Non-Coffee", "Juice"]
         },
         {
@@ -450,7 +450,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
           Drink_Name: "Water",
           Price: { coldPrice: 10 },
           DrinkType: "",
-          img_src: "/image/water.png",
+          img_src: "water.png",
           Tag: ["Water"]
         },
         {

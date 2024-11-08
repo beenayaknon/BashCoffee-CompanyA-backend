@@ -159,8 +159,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: true,
         img_src: "",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
-          { name: "Brown Sugar Jelly", price: 15 }
+          { name: "Extra shot", price: 15 }
         ]
       },
       {
@@ -173,8 +172,7 @@ async function initializeBeverageCollectionIfNotExist(client) {
         isRecommended: true,
         img_src: "/image/orange coffee.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
-          { name: "Brown Sugar Jelly", price: 15 }
+          { name: "Extra shot", price: 15 }
         ]
       },
       {

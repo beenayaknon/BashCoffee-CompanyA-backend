@@ -177,7 +177,7 @@ app.get("/beverage/:name", async (req, res) => {
       drinks.forEach(drink => {
         html += `<div>
                    <h3>${drink.Drink_Name}</h3>
-                   <img src="${drink.img_src}" alt="${drink.Drink_Name}" style="width:150px;height:150px;"/>
+                   <img src="/images/${drink.img_src}" alt="${drink.Drink_Name}" style="width:150px;height:150px;"/>
                    <p>Price: ${drink.Price}</p>
                  </div>`;
       });

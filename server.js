@@ -26,6 +26,9 @@ const initializeMemberCollectionIfNotExist = require("./Database member/member")
 const initializePromotionCollectionIfNotExist = require("./Database promotion/promotion.js");
 const initializbakeryCollectionIfNotExist = require("./Database bakery/bakery.js");
 const initializeRecordCollectionIfNotExist = require("./record/record.js");
+
+const { addMember } = require("./Database member/memberController");
+
 // Function to initialize all collections
 // Function to initialize all collections with fresh data
 async function initializeCollections() {
@@ -250,34 +253,18 @@ app.get("/member/:tel", async (req, res) => {
 
 // Add a new member
 app.post("/member", async (req, res) => {
-  const { Mname, Tel, Alumni } = req.body;
-
-  if (!Mname || !Tel || Alumni === undefined ) {
-    return res.status(400).json({ error: "All member fields are required" });
-  }
-
   try {
-    const existingMember = await db.collection("member").findOne({ Tel });
-
-    if (existingMember) {
-      return res.status(409).json({ error: "Member with this phone number already exists" });
-    }
-
-    const lastMember = await db.collection("member")
-      .find({})
-      .sort({ MID: -1 })
-      .limit(1)
-      .toArray();
-
-    const MID = lastMember.length > 0 ? lastMember[0].MID + 1 : 0; 
-    const Points = 0;
-
-    const newMember = { MID, Mname, Tel, Points, Alumni };
-    await db.collection("member").insertOne(newMember);
+    const newMember = await addMember(db, req.body);
     res.status(201).json(newMember);
   } catch (err) {
-    console.error("Error adding new member:", err);
-    res.status(500).json({ error: "An error occurred while adding the member" });
+    if (err.message === "All member fields are required") {
+      res.status(400).json({ error: err.message });
+    } else if (err.message === "Member with this phone number already exists") {
+      res.status(409).json({ error: err.message });
+    } else {
+      console.error("Error adding new member:", err);
+      res.status(500).json({ error: "An error occurred while adding the member" });
+    }
   }
 });
 

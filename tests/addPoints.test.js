@@ -1,60 +1,45 @@
-const request = require("supertest");
-const app = require("../server"); // Adjust the path based on your file structure
-const { MongoClient } = require("mongodb");
+const { addPoints } = require("../Database member/pointsController");
 
-const uri = "mongodb://localhost:27017";
-const client = new MongoClient(uri);
-const dbName = "BashCoffeeDB";
+describe("addPoints", () => {
+  let mockDb;
 
-beforeAll(async () => {
-  await client.connect();
-  console.log("Connected to MongoDB");
-  const db = client.db(dbName);
-  await db.collection("member").deleteMany({}); // Clear the collection before tests
+  beforeEach(() => {
+    mockDb = {
+      collection: jest.fn().mockReturnThis(),
+      findOne: jest.fn(),
+      updateOne: jest.fn()
+    };
+  });
 
-  // Insert test members
-  await db.collection("member").insertMany([
-    { MID: 0, Mname: "Thanat Phi", Tel: "0625916127", Points: 999, Alumni: true },
-    { MID: 1, Mname: "Phi Phinat", Tel: "0987654321", Points: 5, Alumni: false },
-    { MID: 2, Mname: "Thanatos Thanat", Tel: "1234567890", Points: 4, Alumni: true },
-    { MID: 3, Mname: "Phi Phinat", Tel: "0987654321", Points: 0, Alumni: false }
-  ]);
-});
+  // Test 1: Valid request - Add points to existing member
+  it("should add points to a member with a valid request", async () => {
+    const memberData = { MID: 3, points: 50 };
+    mockDb.findOne.mockResolvedValue({ MID: 3, Points: 0 }); // Existing member with 0 points
 
-afterAll(async () => {
-  await client.close();
-});
+    const response = await addPoints(mockDb, memberData);
 
-// Test 1: Valid request - Add points to existing member
-test("Add points to a member - valid request", async () => {
-  const response = await request(app)
-    .put("/member/add-points")
-    .send({ MID: 3, points: 50 });
+    expect(response.message).toBe("Points added successfully");
+    expect(response.member).toEqual({ MID: 3, Points: 50 }); // Points updated to 50
+    expect(mockDb.updateOne).toHaveBeenCalledWith(
+      { MID: 3 },
+      { $set: { Points: 50 } }
+    );
+  });
 
-  // Expect 200 OK and the correct response structure
-  expect(response.status).toBe(200);
-  expect(response.body.message).toBe("Points added successfully");
-  expect(response.body.member.Points).toBe(50); // Check updated points
-});
+  // Test 2: Invalid points value - points are 0 or negative
+  it("should return an error for invalid points value (negative or zero)", async () => {
+    const memberData = { MID: 3, points: -10 }; // Negative points
 
-// Test 2: Invalid points value - points are 0 or negative
-test("Add points to a member - invalid points value", async () => {
-  const response = await request(app)
-    .put("/member/add-points")
-    .send({ MID: 3, points: -10 });
+    await expect(addPoints(mockDb, memberData)).rejects.toThrow("Valid MID and a positive number of points are required.");
+    expect(mockDb.updateOne).not.toHaveBeenCalled();
+  });
 
-  // Expect 400 Bad Request and validation error message
-  expect(response.status).toBe(400);
-  expect(response.body.error).toBe("Valid MID and a positive number of points are required.");
-});
+  // Test 3: Member not found
+  it("should return an error when member is not found", async () => {
+    const memberData = { MID: 99, points: 10 }; // Non-existing member
+    mockDb.findOne.mockResolvedValue(null); // No member found with MID
 
-// Test 3: Member not found
-test("Add points to a member - member not found", async () => {
-  const response = await request(app)
-    .put("/member/add-points")
-    .send({ MID: 99, points: 10 }); // Non-existing MID
-
-  // Expect 404 Not Found and error message
-  expect(response.status).toBe(404);
-  expect(response.body.error).toBe("Member not found.");
+    await expect(addPoints(mockDb, memberData)).rejects.toThrow("Member not found.");
+    expect(mockDb.updateOne).not.toHaveBeenCalled();
+  });
 });

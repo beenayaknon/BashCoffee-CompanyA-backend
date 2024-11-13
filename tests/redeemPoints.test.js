@@ -1,58 +1,54 @@
-const request = require("supertest");
-const app = require("../server"); // Adjust the path based on your file structure
-const { MongoClient } = require("mongodb");
+const { redeemPoints } = require("../Database member/pointsController");
 
-const uri = "mongodb://localhost:27017";
-const client = new MongoClient(uri);
-const dbName = "BashCoffeeDB";
+describe("redeemPoints", () => {
+  let mockDb;
 
-beforeAll(async () => {
-  await client.connect();
-  console.log("Connected to MongoDB");
-  const db = client.db(dbName);
-  await db.collection("member").deleteMany({}); // Clear the collection before tests
+  beforeEach(() => {
+    mockDb = {
+      collection: jest.fn().mockReturnThis(),
+      findOne: jest.fn(),
+      updateOne: jest.fn()
+    };
+  });
 
-  // Insert test members
-  await db.collection("member").insertMany([
-    { MID: 0, Mname: "Thanat Phi", Tel: "0625916127", Points: 999, Alumni: true },
-    { MID: 1, Mname: "Phi Phinat", Tel: "0987654321", Points: 50, Alumni: false }
-  ]);
-});
+  // Test 1: Valid request - Redeem points from existing member
+  it("should redeem points from a member with a valid request", async () => {
+    const memberData = { MID: 0, points: 100 };
+    mockDb.findOne.mockResolvedValue({ MID: 0, Points: 200 }); // Existing member with sufficient points
 
-afterAll(async () => {
-  await client.close();
-});
+    const response = await redeemPoints(mockDb, memberData);
 
-// Test 1: Redeem points from a member - valid request
-test("Redeem points from a member - valid request", async () => {
-  const response = await request(app)
-    .put("/member/redeem-points")
-    .send({ MID: 0, points: 50 });
+    expect(response.message).toBe("Points redeemed successfully");
+    expect(response.member).toEqual({ MID: 0, Points: 100 }); // Points reduced by 100
+    expect(mockDb.updateOne).toHaveBeenCalledWith(
+      { MID: 0 },
+      { $set: { Points: 100 } }
+    );
+  });
 
-  // Expect 200 OK and the correct response structure
-  expect(response.status).toBe(200);
-  expect(response.body.message).toBe("Points redeemed successfully");
-  expect(response.body.member.Points).toBe(949); // Check updated points after redemption
-});
+  // Test 2: Invalid points value - points are 0 or negative
+  it("should return an error for invalid points value (negative or zero)", async () => {
+    const memberData = { MID: 0, points: -10 }; // Negative points
 
-// Test 2: Redeem points from a member - insufficient points
-test("Redeem points from a member - insufficient points", async () => {
-  const response = await request(app)
-    .put("/member/redeem-points")
-    .send({ MID: 1, points: 100 }); // Attempt to redeem more points than available
+    await expect(redeemPoints(mockDb, memberData)).rejects.toThrow("Valid MID and a positive number of points are required.");
+    expect(mockDb.updateOne).not.toHaveBeenCalled();
+  });
 
-  // Expect 400 Bad Request and insufficient points error message
-  expect(response.status).toBe(400);
-  expect(response.body.error).toBe("Insufficient points for redemption.");
-});
+  // Test 3: Member not found
+  it("should return an error when member is not found", async () => {
+    const memberData = { MID: 99, points: 50 }; // Non-existing member
+    mockDb.findOne.mockResolvedValue(null); // No member found with MID
 
-// Test 3: Redeem points from a member - member not found
-test("Redeem points from a member - member not found", async () => {
-  const response = await request(app)
-    .put("/member/redeem-points")
-    .send({ MID: 99, points: 50 }); // Non-existing MID
+    await expect(redeemPoints(mockDb, memberData)).rejects.toThrow("Member not found.");
+    expect(mockDb.updateOne).not.toHaveBeenCalled();
+  });
 
-  // Expect 404 Not Found and error message
-  expect(response.status).toBe(404);
-  expect(response.body.error).toBe("Member not found.");
+  // Test 4: Insufficient points
+  it("should return an error when member has insufficient points", async () => {
+    const memberData = { MID: 0, points: 150 }; // Redeem more than available points
+    mockDb.findOne.mockResolvedValue({ MID: 0, Points: 100 }); // Existing member with insufficient points
+
+    await expect(redeemPoints(mockDb, memberData)).rejects.toThrow("Insufficient points for redemption.");
+    expect(mockDb.updateOne).not.toHaveBeenCalled();
+  });
 });

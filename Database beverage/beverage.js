@@ -190,27 +190,12 @@ async function initializeBeverageCollectionIfNotExist(client) {
         Description: "Refreshing matcha with a burst of orange flavor.",
         Price: { hotPrice: null, coldPrice: 70 },
         DrinkType: "Cold",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu"],
+        Tag: ["Matcha", "Orange", "Recommend"],
         isRecommended: true,
         img_src: "orange matcha.png",
         AddOns: [
-          { name: "Oat Milk", price: 15 },
-          { name: "Brown Sugar Jelly", price: 15 }
+          {}
         ]
-      },
-      {
-        Drink_Name: "Coconut Flower Matcha",
-        Price: 90,
-        DrinkType: "COLD",
-        img_src: "/image/coconut flower matcha.png",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu"]
-      },
-      {
-        Drink_Name: "Premium Matcha Latte",
-        Price: 85,
-        DrinkType: "HOT",
-        img_src: "",
-        Tag: ["Matcha (Ceremonial Grade)", "Milk", "Recommend Menu", "Nutty", "Umami"]
       },
       {
         Drink_ID: 115,
@@ -334,54 +319,6 @@ async function initializeBeverageCollectionIfNotExist(client) {
       },
         {
           Drink_ID: 124,
-          Drink_Name: "Cocoa",
-          Price: { hotPrice: 55 },
-          DrinkType: "Hot",
-          img_src: "/image/cocoa.png",
-          Tag: ["Non-Coffee", "Milk", "Cocoa"]
-        },
-        {
-          Drink_ID: 125,
-          Drink_Name: "Cocoa",
-          Price: { coldPrice: 60 },
-          DrinkType: "Cold",
-          img_src: "/image/cocoa.png",
-          Tag: ["Non-Coffee", "Milk", "Cocoa"]
-        },
-        {
-          Drink_ID: 126,
-          Drink_Name: "Thai Milk Tea",
-          Price: { hotPrice: 55 },
-          DrinkType: "Hot",
-          img_src: "/image/thai milk tea.png",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
-          Drink_ID: 127,
-          Drink_Name: "Thai Milk Tea",
-          Price: { coldPrice: 60 },
-          DrinkType: "Cold",
-          img_src: "/image/thai milk tea.png",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
-          Drink_ID: 128,
-          Drink_Name: "Assam Black Milk Tea",
-          Price: { hotPrice: 60, coldPrice: 60 },
-          DrinkType: "Hot/Cold",
-          img_src: "",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
-          Drink_ID: 129,
-          Drink_Name: "Whipped Cheese Thai Tea",
-          Price: { coldPrice: 85 },
-          DrinkType: "Cold",
-          img_src: "",
-          Tag: ["Non-Coffee", "Milk", "Tea"]
-        },
-        {
-          Drink_ID: 130,
           Drink_Name: "Orange Juice",
           Description: "Freshly squeezed orange juice, vibrant and refreshing.",
           Price: { coldPrice: 45 },

@@ -28,6 +28,12 @@ const initializbakeryCollectionIfNotExist = require("./Database bakery/bakery.js
 const initializeRecordCollectionIfNotExist = require("./record/record.js");
 
 const { addMember } = require("./Database member/memberController");
+const {
+  getAllBeverages,
+  getBeverageByName,
+  getBeveragesByType,
+  getBeveragesWithImages,
+} = require("./Database beverage/beverageController");
 
 // Function to initialize all collections
 // Function to initialize all collections with fresh data
@@ -69,12 +75,6 @@ async function initializeCollections() {
 // Call initializeCollections when the server starts
 initializeCollections();
 
-
-// Query Collection beverage
-async function getBeverageByName(db, name) {
-  return await db.collection('beverage').findOne({ Drink_Name: name });
-}
-
 // Query Collection member
 async function getMemberByPhone(db, phone) {
   return await db.collection('member').findOne({ Tel: phone });
@@ -91,90 +91,60 @@ async function getBakeryByID(db, bakeryName) {
 }
 
 
-// Define beverage routes
-app.get("/beverages", async (req, res) => {
-  try {
-    const drinkName = req.query.name; // Get drink name from query parameters
-    const drinkType = req.query.type; // Get drink type from query parameters
-
-    let query = {};
-    if (drinkName) {
-      query.Drink_Name = drinkName;
-    }
-    if (drinkType) {
-      query.DrinkType = drinkType;
-    }
-
-    const drinks = await db.collection("beverage").find(query).toArray();
-    res.status(200).json(drinks);
-  } catch (err) {
-    console.error("Error fetching drinks:", err);
-    res.status(500).json({ error: "An error occurred while fetching drinks" });
-  }
-});
-
-// Define beverage routes
-app.get("/beverage/:name", async (req, res) => {
+  // Define beverage routes
+  app.get("/beverages", async (req, res) => {
     try {
-      const drinkName = req.params.name; // Get drink name from URL parameter
-      const drinkType = req.query.type; // Get drink type from query parameters
-  
-      // Create query object
-      let query = { Drink_Name: drinkName }; // Filter by drink name
-      if (drinkType) {
-        query.DrinkType = drinkType; // Add drink type filter if provided
-      }
-  
-      const drinks = await db.collection("beverage").find(query).toArray();
-      
-      // Check if any drinks were found
-      if (drinks.length > 0) {
-        res.status(200).json(drinks); // Return found drinks
-      } else {
-        res.status(404).json({ error: "No drinks found matching the criteria" }); // Return 404 if no drinks found
-      }
+      const beverages = await getAllBeverages(db, req.query);
+      res.status(200).json(beverages);
     } catch (err) {
-      console.error("Error fetching drinks:", err);
-      res.status(500).json({ error: "An error occurred while fetching drinks" });
+      if (err.message === "No beverages found matching the criteria.") {
+        res.status(404).json({ error: err.message });
+      } else {
+        console.error("Error fetching beverages:", err);
+        res.status(500).json({ error: "An error occurred while fetching beverages" });
+      }
     }
   });
 
-  app.get("/beverage/:type", async (req, res) => {
+  // Define beverage routes
+  app.get("/beverage/:name", async (req, res) => {
     try {
-      const drinkName = req.params.name; // Get drink name from URL parameter
-      const drinkType = req.query.type; // Get drink type from query parameters
-  
-      // Create query object
-      let query = { DrinkType: drinkType }; // Filter by drink name
-      if (drinkName) {
-        query.Drink_Name = drinkName; // Add drink type filter if provided
-      }
-  
-      const drinks = await db.collection("beverage").find(query).toArray();
-      
-      // Check if any drinks were found
-      if (drinks.length > 0) {
-        res.status(200).json(drinks); // Return found drinks
-      } else {
-        res.status(404).json({ error: "No drinks found matching the criteria" }); // Return 404 if no drinks found
-      }
+      const beverage = await getBeverageByName(db, req.params.name);
+      res.status(200).json(beverage);
     } catch (err) {
-      console.error("Error fetching drinks:", err);
-      res.status(500).json({ error: "An error occurred while fetching drinks" });
+      if (err.message === "Beverage not found.") {
+        res.status(404).json({ error: err.message });
+      } else {
+        console.error("Error fetching beverage by name:", err);
+        res.status(500).json({ error: "An error occurred while fetching the beverage" });
+      }
     }
   });
-  
+
+  app.get("/beverage/type/:type", async (req, res) => {
+    try {
+      const beverages = await getBeveragesByType(db, req.params.type);
+      res.status(200).json(beverages);
+    } catch (err) {
+      if (err.message === "No beverages found for the specified type.") {
+        res.status(404).json({ error: err.message });
+      } else {
+        console.error("Error fetching beverages by type:", err);
+        res.status(500).json({ error: "An error occurred while fetching beverages" });
+      }
+    }
+  });  
 
   app.get("/test-images", async (req, res) => {
     try {
-      const drinks = await db.collection("beverage").find({}).toArray();
+      const beverages = await getBeveragesWithImages(db);
   
       let html = '<h1>Drink Images</h1>';
-      drinks.forEach(drink => {
+      beverages.forEach(beverage => {
         html += `<div>
-                   <h3>${drink.Drink_Name}</h3>
-                   <img src="/images/${drink.img_src}" alt="${drink.Drink_Name}" style="width:150px;height:150px;"/>
-                   <p>Price: ${drink.Price}</p>
+                   <h3>${beverage.Drink_Name}</h3>
+                   <img src="/images/${beverage.img_src}" alt="${beverage.Drink_Name}" style="width:150px;height:150px;"/>
+                   <p>Price: ${beverage.Price}</p>
                  </div>`;
       });
       res.send(html);

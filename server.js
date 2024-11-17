@@ -571,8 +571,8 @@ async function insertRecord(client, orderData) {
         } else if (bakeryItem) {
             // Create a bakery menu item
             menuItem = {
-                Drink_Name: bakeryItem.Bakery_Name,
-                Drink_Type: "Bakery",
+                Bakery_Name: bakeryItem.Bakery_Name,
+                Bakery_Type: "Bakery",
                 Price: bakeryItem.Price.singlePrice,
                 Add_On: addOn || "None",
                 category: "bakery",

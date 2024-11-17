@@ -34,6 +34,13 @@ const {
   getBeveragesByType,
   getBeveragesWithImages,
 } = require("./Database beverage/beverageController");
+const {
+  getAllPromotions,
+  getPromotionById,
+  addPromotion,
+  updatePromotion,
+  deletePromotion,
+} = require("./Database promotion/promotionController");
 
 // Function to initialize all collections
 // Function to initialize all collections with fresh data
@@ -364,7 +371,7 @@ app.put("/member/redeem-points", async (req, res) => {
 // Promotions endpoints
 app.get("/promotions", async (req, res) => {
   try {
-    const promotions = await db.collection("Promotion").find({}).toArray();
+    const promotions = await getAllPromotions(db);
     res.status(200).json(promotions);
   } catch (err) {
     console.error("Error fetching promotions:", err);
@@ -375,78 +382,61 @@ app.get("/promotions", async (req, res) => {
 // Endpoint to get a promotion by Pro_ID
 app.get("/promotions/:Pro_ID", async (req, res) => {
   try {
-    const promotion = await db.collection("Promotion").findOne({ Pro_ID: req.params.Pro_ID }); // Find promotion by Pro_ID
-
-    if (!promotion) {
-      return res.status(404).json({ message: "Promotion not found" }); // Send error if promotion not found
-    }
-
-    res.status(200).json(promotion); // Send the found promotion as response
+      const promotion = await getPromotionById(db, req.params.Pro_ID);
+      res.status(200).json(promotion);
   } catch (err) {
-    console.error("Error fetching promotion:", err); // Log error
-    res.status(500).json({ error: "An error occurred while fetching the promotion" }); // Send error response
+      if (err.message === "Promotion not found.") {
+          res.status(404).json({ error: err.message });
+      } else {
+          console.error("Error fetching promotion:", err);
+          res.status(500).json({ error: "An error occurred while fetching the promotion" });
+      }
   }
 });
 
 app.post("/promotions", async (req, res) => {
   try {
-    const newPromotion = req.body;
-    if (!newPromotion.Pro_ID || !newPromotion.Promo_Description) {
-      return res.status(400).json({ error: "Pro_ID and Promo_Description are required fields." });
-    }
-
-    await db.collection("Promotion").insertOne(newPromotion);
-    res.status(201).json(newPromotion);
+      const newPromotion = await addPromotion(db, req.body);
+      res.status(201).json(newPromotion);
   } catch (err) {
-    console.error("Error creating promotion:", err);
-    res.status(500).json({ error: "An error occurred while creating the promotion" });
+      if (err.message === "Pro_ID and Promo_Description are required fields.") {
+          res.status(400).json({ error: err.message });
+      } else {
+          console.error("Error creating promotion:", err);
+          res.status(500).json({ error: "An error occurred while creating the promotion" });
+      }
   }
 });
 
 // Endpoint to update a promotion by Pro_ID
 app.put("/promotions/:Pro_ID", async (req, res) => {
   try {
-    const updatedPromotion = req.body; // Get the updated promotion data from request body
-
-    // Validate the required fields: Pro_ID and Promo_Description (ensure Promo_Description is not just whitespace)
-    if (!updatedPromotion.Pro_ID || !updatedPromotion.Promo_Description.trim()) {
-      return res.status(400).json({ error: "Pro_ID and Promo_Description are required fields." });
-    }
-
-    // Update the promotion in the database
-    const result = await db.collection("Promotion").updateOne(
-      { Pro_ID: req.params.Pro_ID }, // Filter to find the promotion by Pro_ID
-      { $set: updatedPromotion } // Update the promotion with the new data
-    );
-
-    if (result.matchedCount === 0) {
-      return res.status(404).json({ message: "Promotion not found" }); // Send error if promotion not found
-    }
-
-    res.status(200).json({ message: "Promotion updated successfully" }); // Send success response
+      const result = await updatePromotion(db, req.params.Pro_ID, req.body);
+      res.status(200).json(result);
   } catch (err) {
-    console.error("Error updating promotion:", err); // Log error
-    res.status(500).json({ error: "An error occurred while updating the promotion" }); // Send error response
+      if (err.message === "Promotion not found.") {
+          res.status(404).json({ error: err.message });
+      } else {
+          console.error("Error updating promotion:", err);
+          res.status(500).json({ error: "An error occurred while updating the promotion" });
+      }
   }
 });
 
 // Endpoint to delete a promotion by Pro_ID
 app.delete("/promotions/:Pro_ID", async (req, res) => {
-    const { Pro_ID } = req.params; // Get the Pro_ID from request parameters
-  
-    try {
-      const result = await db.collection("Promotion").deleteOne({ Pro_ID }); // Delete promotion by Pro_ID
-  
-      if (result.deletedCount === 0) {
-        return res.status(404).json({ message: "Promotion not found" }); // Send error if promotion not found
-      }
-  
-      res.status(200).json({ message: "Promotion deleted successfully", Pro_ID }); // Send success message with Pro_ID
-    } catch (err) {
-      console.error("Error deleting promotion:", err); // Log error
-      res.status(500).json({ error: "An error occurred while deleting the promotion" }); // Send error response
+  try {
+    const result = await deletePromotion(db, req.params.Pro_ID);
+    res.status(200).json(result);
+} catch (err) {
+    if (err.message === "Promotion not found.") {
+        res.status(404).json({ error: err.message });
+    } else {
+        console.error("Error deleting promotion:", err);
+        res.status(500).json({ error: "An error occurred while deleting the promotion" });
     }
-  });
+}
+});
 
 // GET method to fetch all bakery items
 app.get('/bakery', async (req, res) => {

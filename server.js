@@ -27,7 +27,12 @@ const initializePromotionCollectionIfNotExist = require("./Database promotion/pr
 const initializbakeryCollectionIfNotExist = require("./Database bakery/bakery.js");
 const initializeRecordCollectionIfNotExist = require("./record/record.js");
 
-const { addMember } = require("./Database member/memberController");
+const { addMember, getMemberByPhoneNumber, getAllMembers, getRecordHistory } = require("./Database member/memberController");
+const { getBakeryItems, getBakeryItemByName, getMenuItems, getMenuItemById } = require("./Database bakery/bakeryController");
+const { getMemberPointsByPhoneNumber, addPointsToMember, redeemPointsFromMember}  = require("./Database member/pointsController");
+const {insertRecord, insertRecordWithValidation}  = require("./record/recordController");
+
+
 const {
   getAllBeverages,
   getBeverageByName,
@@ -81,22 +86,6 @@ async function initializeCollections() {
 
 // Call initializeCollections when the server starts
 initializeCollections();
-
-// Query Collection member
-async function getMemberByPhone(db, phone) {
-  return await db.collection('member').findOne({ Tel: phone });
-}
-
-// Query Collection Promotion
-async function getPromotionByID(db, ID) {
-  return await db.collection('Promotion').findOne({ Pro_ID: ID });
-}
-
-// Query Collection bakery
-async function getBakeryByID(db, bakeryName) {
-  return await db.collection('bakery').findOne({ Bakery_Name: bakeryName });
-}
-
 
   // Define beverage routes
   app.get("/beverages", async (req, res) => {
@@ -162,69 +151,53 @@ async function getBakeryByID(db, bakeryName) {
   });
   
   // Fetch beverage and bakery
-app.get("/menu", async (req, res) => {
-  try {
-    const drinks = await db.collection("beverage").find({}).toArray();
-    const bakeries = await db.collection("bakery").find({}).toArray();
-    
-    // Combine drinks and bakeries into one array
-    const menuItems = [...drinks, ...bakeries];
-    
-    res.status(200).json(menuItems);
-  } catch (err) {
-    console.error("Error fetching menu items:", err);
-    res.status(500).json({ error: "An error occurred while fetching menu items" });
-  }
-});
-
-app.get("/menu/:id", async (req, res) => {
-  try {
-    const itemId = parseInt(req.params.id); // Get ID from URL parameter and convert to integer
-
-    // First, try to find the item in the 'beverage' collection
-    let item = await db.collection("beverage").findOne({ Drink_ID: itemId });
-
-    // If not found in 'beverage', try 'bakery'
-    if (!item) {
-      item = await db.collection("bakery").findOne({ Bakery_ID: itemId });
+  app.get("/menu", async (req, res) => {
+    try {
+      const menuItems = await getMenuItems(db);
+      res.status(200).json(menuItems);
+    } catch (err) {
+      res.status(500).json({ error: "An error occurred while fetching menu items" });
     }
+  });
+  
 
-    if (item) {
+  app.get("/menu/:id", async (req, res) => {
+    try {
+      const itemId = parseInt(req.params.id); // Get ID from URL parameter and convert to integer
+      const item = await getMenuItemById(db, itemId);
       res.status(200).json(item);
-    } else {
-      res.status(404).json({ error: "Item not found" });
+    } catch (err) {
+      if (err.message === "Item not found") {
+        res.status(404).json({ error: err.message });
+      } else {
+        res.status(500).json({ error: "An error occurred while fetching the item" });
+      }
     }
-  } catch (err) {
-    console.error("Error fetching item:", err);
-    res.status(500).json({ error: "An error occurred while fetching the item" });
-  }
-});
+  });
+  
 
-// Member routes (same pattern as above, but with the connection established)
 app.get("/members", async (req, res) => {
   try {
-    const members = await db.collection("member").find({}).toArray();
+    const members = await getAllMembers(db);
     res.status(200).json(members);
   } catch (err) {
-    console.error("Error fetching members:", err);
     res.status(500).json({ error: "An error occurred while fetching members" });
   }
 });
+
 
 app.get("/member/:tel", async (req, res) => {
   const { tel } = req.params;
 
   try {
-    const member = await db.collection("member").findOne({ Tel: tel });
-
-    if (member) {
-      res.status(200).json(member);
-    } else {
-      res.status(404).json({ error: "Member not found" });
-    }
+    const member = await getMemberByPhoneNumber(db, tel);
+    res.status(200).json(member);
   } catch (err) {
-    console.error("Error fetching member by phone number:", err);
-    res.status(500).json({ error: "An error occurred while fetching the member" });
+    if (err.message === "Member not found") {
+      res.status(404).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: "An error occurred while fetching the member" });
+    }
   }
 });
 
@@ -249,124 +222,65 @@ app.post("/member", async (req, res) => {
 app.get("/member/view-points/:tel", async (req, res) => {
   const { tel } = req.params;
 
-  // Validate input parameters
-  if (!tel) {
-    return res.status(400).json({ error: "Valid phone number is required." });
-  }
-
   try {
-    const member = await db.collection("member").findOne({ Tel: tel });
-
-    if (member) {
-      // Prepare response with member details and points
-      const memberPointsDetails = {
-        MID: member.MID,
-        Name: member.Mname,
-        Phone: member.Tel,
-        Points: member.Points,
-        Alumni: member.Alumni, // Want to show ?
-      };
-
-      res.status(200).json(memberPointsDetails);
-    } else {
-      res.status(404).json({ error: "Member not found." });
-    }
+    const memberPointsDetails = await getMemberPointsByPhoneNumber(db, tel);
+    res.status(200).json(memberPointsDetails);
   } catch (err) {
-    console.error("Error fetching member points by phone number:", err);
-    res.status(500).json({ error: "An error occurred while fetching the member points." });
+    if (err.message === "Valid phone number is required") {
+      res.status(400).json({ error: err.message });
+    } else if (err.message === "Member not found") {
+      res.status(404).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: "An error occurred while fetching the member points." });
+    }
   }
 });
+
 
 
 // Add points to a member
 app.put("/member/add-points", async (req, res) => {
   const { MID, points } = req.body;
 
-  // Validate input parameters
-  if (MID === undefined || points === undefined || typeof points !== "number" || points <= 0) {
-    return res.status(400).json({ error: "Valid MID and a positive number of points are required." });
-  }
-
   try {
-    console.log("Connecting to the database...");
-
-    // Access the database and collection
-    const db = client.db(dbName);
-    const collection = db.collection("member");
-
-    // Check if the member exists
-    const member = await collection.findOne({ MID });
-    console.log("Member found:", member); // Log the found member document
-
-    if (!member) {
-      return res.status(404).json({ error: "Member not found." });
-    }
-
-    // Attempt to update points
-    const result = await collection.updateOne(
-      { MID },
-      { $inc: { Points: points } } // Increment Points
-    );
-
-    // Log the result of the update operation
-    console.log("Update result:", result);
-
-    // Check if the update was successful
-    if (result.modifiedCount === 1) {
-      const updatedMember = await collection.findOne({ MID });
-      res.status(200).json({ message: "Points added successfully", member: updatedMember });
-    } else {
-      res.status(500).json({ error: "Failed to update points." });
-    }
+    const updatedMember = await addPointsToMember(db, MID, points);
+    res.status(200).json({ message: "Points added successfully", member: updatedMember });
   } catch (err) {
-    console.error("Error adding points to member:", err);
-    res.status(500).json({ error: "An error occurred while adding points" });
+    if (err.message === "Valid MID and a positive number of points are required") {
+      res.status(400).json({ error: err.message });
+    } else if (err.message === "Member not found") {
+      res.status(404).json({ error: err.message });
+    } else if (err.message === "Failed to update points") {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: "An error occurred while adding points" });
+    }
   }
 });
+
 
 // Redeem points from a member
 app.put("/member/redeem-points", async (req, res) => {
   const { MID, points } = req.body;
 
-  // Validate input parameters
-  if (MID === undefined || points === undefined || typeof points !== "number" || points <= 0) {
-    return res.status(400).json({ error: "Valid MID and a positive number of points are required." });
-  }
-
   try {
-    const db = client.db(dbName);
-    const collection = db.collection("member");
-
-    // Check if the member exists
-    const member = await collection.findOne({ MID });
-    if (!member) {
-      return res.status(404).json({ error: "Member not found." });
-    }
-
-    // Check if the member has enough points for redemption
-    if (member.Points < points) {
-      return res.status(400).json({ error: "Insufficient points for redemption." });
-    }
-
-    // Deduct points from the member
-    const result = await collection.updateOne(
-      { MID },
-      { $inc: { Points: -points } } // Deduct points
-    );
-
-    // Check if the update was successful
-    if (result.modifiedCount === 1) {
-      // Fetch updated member data
-      const updatedMember = await collection.findOne({ MID });
-      res.status(200).json({ message: "Points redeemed successfully", member: updatedMember });
-    } else {
-      res.status(500).json({ error: "Failed to redeem points." });
-    }
+    const updatedMember = await redeemPointsFromMember(db, MID, points);
+    res.status(200).json({ message: "Points redeemed successfully", member: updatedMember });
   } catch (err) {
-    console.error("Error redeeming points from member:", err);
-    res.status(500).json({ error: "An error occurred while redeeming points" });
+    if (err.message === "Valid MID and a positive number of points are required") {
+      res.status(400).json({ error: err.message });
+    } else if (err.message === "Member not found") {
+      res.status(404).json({ error: err.message });
+    } else if (err.message === "Insufficient points for redemption") {
+      res.status(400).json({ error: err.message });
+    } else if (err.message === "Failed to redeem points") {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: "An error occurred while redeeming points" });
+    }
   }
 });
+
 
 // Promotions endpoints
 app.get("/promotions", async (req, res) => {
@@ -439,127 +353,52 @@ app.delete("/promotions/:Pro_ID", async (req, res) => {
 });
 
 // GET method to fetch all bakery items
-app.get('/bakery', async (req, res) => {
-   try {
-        const tagQuery = req.query.tag;
-        const minPrice = parseFloat(req.query.minPrice);
-        const maxPrice = parseFloat(req.query.maxPrice);
+app.get("/bakery", async (req, res) => {
+  try {
+    const tagQuery = req.query.tag;
+    const minPrice = parseFloat(req.query.minPrice);
+    const maxPrice = parseFloat(req.query.maxPrice);
 
-        // Initialize filter object
-        const filter = {};
+    const items = await getBakeryItems(db, tagQuery, minPrice, maxPrice);
+    res.status(200).json(items);
+  } catch (err) {
+    res.status(500).json({ error: "Error occurred" });
+  }
+});
 
-        // Add tag filter if provided
-        if (tagQuery) {
-            filter.Tag = { $in: [tagQuery] };
-        }
-
-        // Add price range filter if minPrice or maxPrice is provided
-        if (!isNaN(minPrice) || !isNaN(maxPrice)) {
-            filter["Price.singlePrice"] = {};
-            if (!isNaN(minPrice)) filter["Price.singlePrice"].$gte = minPrice;
-            if (!isNaN(maxPrice)) filter["Price.singlePrice"].$lte = maxPrice;
-        }
-
-       console.log("Filter being used:", filter); // Log the filter being used
-
-       const items = await db.collection("bakery").find(filter).toArray(); // Fetch items from the bakery collection
-       console.log("Items found:", items); // Log the found items
-  
-      res.status(200).json(items); // Return data as JSON
-    } catch (err) {
-      console.error('Error fetching bakery items:', err); // Log any errors
-      res.status(500).json({ error: 'Error occurred' }); // Return a 500 error response
-    }
-  });
   
   // GET method to fetch bakery item by name
-  app.get('/bakery/:name', async (req, res) => {
+  app.get("/bakery/:name", async (req, res) => {
     try {
-      const bakeryName = req.params.name; // Get the bakery name from the URL parameter
-      const item = await db.collection("bakery").findOne({ Bakery_Name: bakeryName }); // Fetch the bakery item by name
-      console.log("Item found:", item); // Log the found item
-  
-      if (item) {
-        res.status(200).json(item); // Return the bakery item if found
-      } else {
-        res.status(404).json({ error: 'Bakery item not found' }); // Return a 404 if not found
-      }
+      const bakeryName = req.params.name;
+      const item = await getBakeryItemByName(db, bakeryName);
+      res.status(200).json(item);
     } catch (err) {
-      console.error('Error fetching bakery item by name:', err); // Log any errors
-      res.status(500).json({ error: 'Error occurred' }); // Return a 500 error response
+      if (err.message === "Bakery item not found") {
+        res.status(404).json({ error: err.message });
+      } else {
+        res.status(500).json({ error: "Error occurred" });
+      }
     }
-  });
+  });  
 
 //-----------------------------//
 // Modified function to insert records into the 'record' collection
 // Function to insert the record into the database
-async function insertRecord(client, orderData) {
-    // Define the collection
-    const collection = db.collection("record");
-
-    // Check if the 'record' collection exists
-    const collections = await db.listCollections().toArray();
-    const collectionExists = collections.some(col => col.name === "record");
-    if (!collectionExists) {
-        await db.createCollection("record");
-        console.log("Collection 'record' created");
+app.post("/record", async (req, res) => {
+  try {
+    const record = await insertRecord(db, req.body);
+    res.status(201).json({ message: "Order successfully inserted", record });
+  } catch (err) {
+    console.error("Error inserting record:", err);
+    if (err.message.startsWith("Item not found:")) {
+      res.status(404).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: "An error occurred while inserting the record" });
     }
+  }
+});
 
-    // Map over the Menu items in orderData to construct the menuItems array
-    const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
-        const [name, type, price, addOn] = item;
-
-        console.log(`Checking for item: ${name}`); // Add this line to log the name being checked
-
-        // Fetch beverage or bakery item based on name
-        const beverageItem = await db.collection("beverage").findOne({ Drink_Name: name });
-        console.log("Beverage Item:", beverageItem);
-
-        const bakeryItem = await db.collection("bakery").findOne({ Bakery_Name: name });
-        console.log("Bakery Item:", bakeryItem);
-
-        let menuItem;
-        if (beverageItem) {
-            // Create a beverage menu item
-            menuItem = {
-                Drink_Name: beverageItem.Drink_Name,
-                Drink_Type: type || beverageItem.DrinkType,
-                Price: price || (type === "COLD" ? beverageItem.Price.coldPrice : beverageItem.Price.hotPrice),
-                Add_On: addOn || "None",
-                category: "beverage",
-            };
-        } else if (bakeryItem) {
-            // Create a bakery menu item
-            menuItem = {
-                Bakery_Name: bakeryItem.Bakery_Name,
-                Bakery_Type: "Bakery",
-                Price: bakeryItem.Price.singlePrice,
-                Add_On: addOn || "None",
-                category: "bakery",
-            };
-        } else {
-            // If the item is not found in either collection
-            throw new Error(`Item not found: ${name}`);
-        }
-
-        return menuItem;
-
-    }));
-
-    // Prepare the record to insert
-    const record = {
-        Customer: orderData.Customer,
-        Tel: orderData.Tel,
-        Menu: menuItems,
-        promotion: orderData.promotion,
-        totalPrice: orderData.totalPrice,
-        date: new Date() // Adding a timestamp
-    };
-
-    // Insert the record into the 'record' collection
-    await collection.insertOne(record);
-    console.log("Order inserted into 'record':", record);
-}
 
 
 
@@ -569,44 +408,103 @@ async function getRecordHistory(client) {
     return record;
 }
 
+async function insertRecord(client, orderData) {
+  // Define the collection
+  const collection = db.collection("record");
+
+  // Check if the 'record' collection exists
+  const collections = await db.listCollections().toArray();
+  const collectionExists = collections.some(col => col.name === "record");
+  if (!collectionExists) {
+      await db.createCollection("record");
+      console.log("Collection 'record' created");
+  }
+
+  // Map over the Menu items in orderData to construct the menuItems array
+  const menuItems = await Promise.all(orderData.Menu.map(async (item) => {
+      const [name, type, price, addOn] = item;
+
+      console.log(`Checking for item: ${name}`); // Add this line to log the name being checked
+
+      // Fetch beverage or bakery item based on name
+      const beverageItem = await db.collection("beverage").findOne({ Drink_Name: name });
+      console.log("Beverage Item:", beverageItem);
+
+      const bakeryItem = await db.collection("bakery").findOne({ Bakery_Name: name });
+      console.log("Bakery Item:", bakeryItem);
+
+      let menuItem;
+      if (beverageItem) {
+          // Create a beverage menu item
+          menuItem = {
+              Drink_Name: beverageItem.Drink_Name,
+              Drink_Type: type || beverageItem.DrinkType,
+              Price: price || (type === "COLD" ? beverageItem.Price.coldPrice : beverageItem.Price.hotPrice),
+              Add_On: addOn || "None",
+              category: "beverage",
+          };
+      } else if (bakeryItem) {
+          // Create a bakery menu item
+          menuItem = {
+              Bakery_Name: bakeryItem.Bakery_Name,
+              Bakery_Type: "Bakery",
+              Price: bakeryItem.Price.singlePrice,
+              Add_On: addOn || "None",
+              category: "bakery",
+          };
+      } else {
+          // If the item is not found in either collection
+          throw new Error(`Item not found: ${name}`);
+      }
+
+      return menuItem;
+
+  }));
+
+  // Prepare the record to insert
+  const record = {
+      Customer: orderData.Customer,
+      Tel: orderData.Tel,
+      Menu: menuItems,
+      promotion: orderData.promotion,
+      totalPrice: orderData.totalPrice,
+      date: new Date() // Adding a timestamp
+  };
+
+  // Insert the record into the 'record' collection
+  await collection.insertOne(record);
+  console.log("Order inserted into 'record':", record);
+}
+
 // POST route to create a new record
 app.post("/record", async (req, res) => {
-    try {
-        const orderData = req.body;
-
-        // Check for required fields, including promotion
-        if (!orderData.Customer || !orderData.Tel || !orderData.Menu || !orderData.totalPrice || !orderData.promotion) {
-            return res.status(400).json({ error: "Incomplete order information" });
-        }
-
-        // Ensure Menu is an array
-        if (typeof orderData.Menu === 'string') {
-            orderData.Menu = orderData.Menu.split(',').map(item => item.trim());
-        }
-
-        // Attempt to insert the record
-        await insertRecord(client, orderData);
-        res.status(201).json({ message: "Record has been successfully recorded" });
-    } catch (error) {
-        // Log the error details for debugging
-        console.error("Error inserting record:", error.message, error.stack);
-
-        // Provide a response with a more general error message
-        res.status(500).json({ error: "An error occurred while recording the order" });
+  try {
+    const orderData = req.body;
+    await insertRecordWithValidation(db, orderData);
+    res.status(201).json({ message: "Record has been successfully recorded" });
+  } catch (error) {
+    console.error("Error inserting record:", error.message, error.stack);
+    if (error.message === "Incomplete order information") {
+      res.status(400).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An error occurred while recording the order" });
     }
+  }
 });
+
 
 
 // GET route to retrieve record history
 app.get("/record", async (req, res) => {
-    try {
-        const record = await getRecordHistory(client);
-        res.status(200).json(record);
-    } catch (error) {
-        console.error("Error retrieving record history:", error);
-        res.status(500).json({ error: "An error occurred while retrieving record history" });
-    }
+  try {
+    const record = await getRecordHistory(db);
+    res.status(200).json(record);
+  } catch (error) {
+    console.error("Error retrieving record history:", error);
+    res.status(500).json({ error: "An error occurred while retrieving record history" });
+  }
 });
+
 
 module.exports = { initializeRecordCollectionIfNotExist, insertRecord, getRecordHistory };
 

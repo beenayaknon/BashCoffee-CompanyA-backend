@@ -1,62 +1,93 @@
-async function addPoints(db, memberData) {
-    const { MID, points } = memberData;
-  
-    // Validate MID and points
-    if (MID === undefined || points <= 0) {
-      throw new Error("Valid MID and a positive number of points are required.");
+async function getMemberPointsByPhoneNumber(db, tel) {
+    if (!tel) {
+      throw new Error("Valid phone number is required");
     }
   
-    // Find the member by MID
-    const member = await db.collection("member").findOne({ MID });
-    if (!member) {
-      throw new Error("Member not found.");
+    try {
+      const member = await db.collection("member").findOne({ Tel: tel });
+      if (!member) {
+        throw new Error("Member not found");
+      }
+  
+      return {
+        MID: member.MID,
+        Name: member.Mname,
+        Phone: member.Tel,
+        Points: member.Points,
+        Alumni: member.Alumni, // Include if needed
+      };
+    } catch (err) {
+      console.error("Error fetching member points by phone number:", err);
+      throw err;
+    }
+  }
+  
+  async function addPointsToMember(db, MID, points) {
+    if (MID === undefined || points === undefined || typeof points !== "number" || points <= 0) {
+      throw new Error("Valid MID and a positive number of points are required");
     }
   
-    // Update points
-    const updatedPoints = member.Points + points;
-    await db.collection("member").updateOne(
-      { MID },
-      { $set: { Points: updatedPoints } }
-    );
+    try {
+      const collection = db.collection("member");
   
-    // Return updated member data
-    return {
-      message: "Points added successfully",
-      member: { MID, Points: updatedPoints }
-    };
+      // Check if the member exists
+      const member = await collection.findOne({ MID });
+      if (!member) {
+        throw new Error("Member not found");
+      }
+  
+      // Increment points
+      const result = await collection.updateOne(
+        { MID },
+        { $inc: { Points: points } }
+      );
+  
+      if (result.modifiedCount === 1) {
+        return await collection.findOne({ MID });
+      } else {
+        throw new Error("Failed to update points");
+      }
+    } catch (err) {
+      console.error("Error adding points to member:", err);
+      throw err;
+    }
   }
 
-async function redeemPoints(db, memberData) {
-    const { MID, points } = memberData;
-  
-    // Validate MID and points
-    if (MID === undefined || points <= 0) {
-      throw new Error("Valid MID and a positive number of points are required.");
+  async function redeemPointsFromMember(db, MID, points) {
+    if (MID === undefined || points === undefined || typeof points !== "number" || points <= 0) {
+      throw new Error("Valid MID and a positive number of points are required");
     }
   
-    // Find the member by MID
-    const member = await db.collection("member").findOne({ MID });
-    if (!member) {
-      throw new Error("Member not found.");
+    try {
+      const collection = db.collection("member");
+  
+      // Check if the member exists
+      const member = await collection.findOne({ MID });
+      if (!member) {
+        throw new Error("Member not found");
+      }
+  
+      // Check if the member has enough points
+      if (member.Points < points) {
+        throw new Error("Insufficient points for redemption");
+      }
+  
+      // Deduct points
+      const result = await collection.updateOne(
+        { MID },
+        { $inc: { Points: -points } }
+      );
+  
+      if (result.modifiedCount === 1) {
+        return await collection.findOne({ MID });
+      } else {
+        throw new Error("Failed to redeem points");
+      }
+    } catch (err) {
+      console.error("Error redeeming points from member:", err);
+      throw err;
     }
+  }
   
-    // Check if the member has enough points for redemption
-    if (member.Points < points) {
-      throw new Error("Insufficient points for redemption.");
-    }
-  
-    // Deduct points
-    const updatedPoints = member.Points - points;
-    await db.collection("member").updateOne(
-      { MID },
-      { $set: { Points: updatedPoints } }
-    );
-  
-    // Return updated member data
-    return {
-      message: "Points redeemed successfully",
-      member: { MID, Points: updatedPoints }
-    };
-  }   
 
-  module.exports = { addPoints, redeemPoints };  
+  module.exports = {getMemberPointsByPhoneNumber, addPointsToMember, redeemPointsFromMember,};  
